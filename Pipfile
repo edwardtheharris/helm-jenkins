@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+loguru = "*"
+gitpython = "*"
+pip = "*"
+pre-commit = "*"
+pipenv = "*"
+pytest-helm-charts = "*"
+
+[dev-packages]
+"sphinxcontrib.autoyaml" = "*"
+myst-parser = {extras = ["linkify"], version = "*"}
+sphinx = "*"
+sphinx-autobuild = "*"
+sphinx-book-theme = "*"
+sphinx-design = "*"
+sphinxemoji = "*"
+version-query = "*"

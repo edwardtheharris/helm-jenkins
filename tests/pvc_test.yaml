@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+###
+# ```{rubric} pvc Test Suite
+# ```
+# ---
+# Tests to validate the deployment of the described PVC.
+#
+# ```{literalinclude} /tests/pvc_test.yaml
+# :language: yaml
+# :start-at: "suite: test for pvc\n"
+# :end-before: "###\n"
+# ```
+suite: test for pvc
+release:
+  name: argo
+values:
+  - ../values.yaml
+
+###
+# ```{rubric} PVC Tests
+# ```
+# ---
+# Tests for PVC Template
+#
+# ```{literalinclude} /tests/pvc_test.yaml
+# :language: yaml
+# :start-at: "tests:\n"
+# ```
+tests:
+  - it: should be a PersistentVolumeClaim
+    skip:
+      reason: Not deployed
+    asserts:
+      - isKind:
+          of: PersistentVolumeClaim
+      - matchSnapshot: {}

@@ -1,13 +1,19 @@
 ---
-abstract: A helm chart to deploy Jenkins to bare metal K8S.
+abstract: Helm chart to install Jenkins on local Kubernetes.
 authors:
   - name: Xander Harris
-    email: xandertheharris@gmail.com
-date: 2025-09-01
-title: Helm Jenkins
+    email: xandertheharris@gmmail.com
+date: 2024-09-01
+title: Jenkins Helm Charts
 ---
 
-## Usage
+## Quick start
 
-1. Set your values.
-2. Deploy the chart.
+1. Clone the repository
+
+2. Install with default values
+
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+```
+

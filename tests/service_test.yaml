@@ -1,0 +1,38 @@
+###
+# ```{rubric} service Test Suite
+# ```
+# ---
+# Tests to validate the service of the described service.
+#
+# ```{literalinclude} /tests/service_test.yaml
+# :language: yaml
+# :start-at: "suite: test for service\n"
+# :end-before: "###\n"
+# ```
+suite: test for service
+release:
+  name: argo
+set:
+  service:
+    enabled: true
+templates:
+  - charts/argo-cd/templates/redis/service.yaml
+values:
+  - ../values.yaml
+
+###
+# ```{rubric} service Tests
+# ```
+# ---
+# Tests for service Template
+#
+# ```{literalinclude} /tests/service_test.yaml
+# :language: yaml
+# :start-at: "tests:\n"
+# ```
+tests:
+  - it: should be a service
+    asserts:
+      - isKind:
+          of: Service
+      - matchSnapshot: {}

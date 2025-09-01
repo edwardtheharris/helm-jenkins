@@ -1,0 +1,22 @@
+global:
+  domain: ghenkis.breeze-blocks.net
+autoscaling:
+  enabled: false
+certificate:
+  enabled: true
+image:
+  repository: quay.io/argoproj/argocd
+persistence:
+  storageClass: csi-lvm-linear
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: the-hard-way-ca
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    tls: true
+    extraHosts:
+      - name: ghenkis.brick-house.org
+        path: /
+        secretName: brick-house-tls

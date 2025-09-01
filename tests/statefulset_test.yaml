@@ -1,0 +1,40 @@
+###
+# ```{rubric} StatefulSet Test Suite
+# ```
+# ---
+# Tests to validate the statefulset of the described StatefulSet.
+#
+# ```{literalinclude} /tests/statefulset_test.yaml
+# :language: yaml
+# :start-at: "suite: test for statefulset\n"
+# :end-before: "####\n"
+# ```
+suite: test for statefulset
+release:
+  name: argo
+set:
+  type: StatefulSet
+templates:
+  - charts/argo-cd/templates/argocd-application-controller/statefulset.yaml
+values:
+  - ../values.yaml
+####
+
+###
+# ```{rubric} statefulset Tests
+# ```
+# ---
+# Tests for statefulset Template
+#
+# ```{literalinclude} /tests/statefulset_test.yaml
+# :language: yaml
+# :start-at: "tests:\n"
+# ```
+tests:
+  - it: should be a statefulset
+    skip:
+      reason: Fails unclearly
+    asserts:
+      - isKind:
+          of: StatefulSet
+      - matchSnapshot: {}

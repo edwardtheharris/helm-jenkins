@@ -1,0 +1,13 @@
+venv/
+__snapshot__/
+.gnupg/
+*.xml
+.values.yaml
+.vscode/
+_build
+.venv/
+reflog
+*.tgz
+secrets
+certs/
+.debug/

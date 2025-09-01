@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+###
+# ```{rubric} Ingress Test Suite
+# ```
+# ---
+# Tests to validate the deployment of the Ingress.
+#
+# ```{literalinclude} /tests/ingress_test.yaml
+# :language: yaml
+# :start-at: "suite: test for ingress\n"
+# :end-before: "###\n"
+# ```
+suite: test for ingress
+release:
+  name: argocd
+set:
+  applicationSet:
+    ingress:
+      enabled: true
+  argo-cd:
+    applicationSet:
+      ingress:
+        enabled: true
+      ingressClassName: nginx
+      hostname: test.svc.cluster
+templates:
+  # - charts/argo-cd/templates/argocd-application-controller/networkpolicy.yaml
+  - charts/argo-cd/templates/argocd-applicationset/ingress.yaml
+  #  - charts/argo-cd/templates/argocd-applicationset/networkpolicy.yaml
+  #  - charts/argo-cd/templates/argocd-notifications/networkpolicy.yaml
+  #  - charts/argo-cd/templates/argocd-repo-server/networkpolicy.yaml
+  #  - charts/argo-cd/templates/argocd-server/aws/ingress.yaml
+  #  - charts/argo-cd/templates/argocd-server/gke/ingress.yaml
+  #  - charts/argo-cd/templates/argocd-server/ingress-grpc.yaml
+  #  - charts/argo-cd/templates/argocd-server/ingress.yaml
+  #  - charts/argo-cd/templates/argocd-server/networkpolicy.yaml
+  # - charts/argo-cd/templates/dex/networkpolicy.yaml
+  # - charts/argo-cd/templates/networkpolicy-default-deny.yaml
+  # - charts/argo-cd/templates/networkpolicy-default-deny.yaml
+  # - charts/argo-cd/templates/redis/networkpolicy.yaml
+values:
+  - ../values.yaml
+
+###
+# ```{rubric} Ingress Tests
+# ```
+# ---
+# Tests for Ingress Template
+#
+# ```{literalinclude} /tests/ingress_test.yaml
+# :language: yaml
+# :start-at: "tests:\n"
+# ```
+tests:
+  - it: should be a Ingress
+    asserts:
+      - isKind:
+          of: Ingress
+      - matchSnapshot: {}

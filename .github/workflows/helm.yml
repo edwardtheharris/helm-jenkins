@@ -1,0 +1,106 @@
+name: Test Helm Chart
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+###
+# ```{rubric} Permissions Updates
+# ```
+# Enable read for contents and issues, and write for checks and PRs.
+#
+# ```{literalinclude} /.github/workflows/helm.yml
+# :language: yaml
+# :start-at: "permissions:\n"
+# :end-before: "###\n"
+# ```
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+###
+# ```{rubric} Workflow Jobs
+# ```
+# ---
+# A workflow run is made up of one or more
+# jobs that can run sequentially or in parallel
+#
+jobs:
+  ###
+  # ```{rubric} Helm Setup
+  # ```
+  # ---
+  # Setup Helm requirements for GHA.
+  #
+  # ```{literalinclude} /.github/workflows/helm.yml
+  # :language: yaml
+  # :start-at: "  helmsetup:\n"
+  # :end-before: "###\n"
+  # ```
+  helmsetup:
+    name: helmsetup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - run: |
+          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+          sudo apt-get install apt-transport-https --yes
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+          sudo apt-get update
+          sudo apt-get install -y helm
+
+  ###
+  # ```{rubric} Helm Lint
+  # ```
+  # ---
+  # Check that the Helm YAML in this repo will pass lint.
+  #
+  # ```{literalinclude} /.github/workflows/helm.yml
+  # :language: yaml
+  # :start-at: "  helmlint:\n"
+  # :end-before: "###\n"
+  # ```
+  helmlint:
+    name: helmlint
+    needs: helmsetup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - run: helm lint .
+
+  ###
+  # ```{rubric} Helm Test
+  # ```
+  # ---
+  # Run the helm unit tests without enough coverage.
+  #
+  # ```{literalinclude} /.github/workflows/helm.yml
+  # :language: yaml
+  # :start-at: "  helmtest:\n"
+  # ```
+  helmtest:
+    name: helmtest
+    needs: helmsetup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - run: helm plugin install https://github.com/helm-unittest/helm-unittest
+      - run: helm repo add lvm https://helm.metal-stack.io
+      - run: helm dependency update
+      - run: helm dependency build
+      - run: helm unittest -d -f 'tests/*.yaml' .
+      - run: helm unittest -f 'tests/*.yaml' -t JUnit -o results.xml .
+        if: success() || failure() # always run even if the previous step fails
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          check_name: helmtest
+          comment_title: "Helm Test"
+          files: results.xml

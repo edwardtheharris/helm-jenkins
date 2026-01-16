@@ -1,0 +1,54 @@
+###
+# ```{rubric} HPA Test Suite
+# ```
+# ---
+# Tests to validate the hpa configuration.
+#
+# ```{literalinclude} /tests/hpa_test.yaml
+# :language: yaml
+# :start-at: "suite: test for hpa\n"
+# :end-before: "###\n"
+# ```
+suite: test for hpa
+release:
+  name: argo
+values:
+  - ../values.yaml
+
+###
+# ```{rubric} HPA Tests
+# ```
+# ---
+# Tests for Deployment Template
+#
+# ```{literalinclude} /tests/hpa_test.yaml
+# :language: yaml
+# :start-at: "tests:\n"
+# ```
+tests:
+  - it: repo server should be an hpa
+    set:
+      repoServer:
+        autoscaling:
+          enabled: true
+    skip:
+      reason: broken
+    asserts:
+      - isKind:
+          of: HorizontalPodAutoscaler
+      - matchSnapshot: {}
+    templates:
+      - charts/argo-cd/templates/argocd-repo-server/hpa.yaml
+    values:
+      - values/reposerver.yml
+  - it: server should be an hpa
+    skip:
+      reason: broken tests get skipped
+    asserts:
+      - isKind:
+          of: HorizontalPodAutoscaler
+      - matchSnapshot: {}
+    templates:
+      - charts/argo-cd/templates/argocd-server/hpa.yaml
+    values:
+      - values/server.yml

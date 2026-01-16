@@ -1,27 +1,3 @@
-<<<<<<< Updated upstream
-global:
-  domain: ghenkis.breeze-blocks.net
-autoscaling:
-  enabled: false
-certificate:
-  enabled: true
-image:
-  repository: quay.io/argoproj/argocd
-persistence:
-  storageClass: csi-lvm-linear
-server:
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: the-hard-way-ca
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    tls: true
-    extraHosts:
-      - name: ghenkis.brick-house.org
-        path: /
-        secretName: brick-house-tls
-=======
 # Default values for jenkins.
 # This is a YAML-formatted file.
 # Declare name/value pairs to be passed into your templates.
@@ -1416,4 +1392,3 @@ helmtest:
       repository: "bats/bats"
       # -- Tag of the image to test the framework
       tag: "1.13.0"
->>>>>>> Stashed changes

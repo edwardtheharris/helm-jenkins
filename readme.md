@@ -1,24 +1,3 @@
-<<<<<<< Updated upstream
----
-abstract: Helm chart to install Jenkins on local Kubernetes.
-authors:
-  - name: Xander Harris
-    email: xandertheharris@gmmail.com
-date: 2024-09-01
-title: Jenkins Helm Charts
----
-
-## Quick start
-
-1. Clone the repository
-
-2. Install with default values
-
-```bash
-helm repo add argo https://argoproj.github.io/argo-helm
-```
-
-=======
 # Jenkins
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/jenkins)](https://artifacthub.io/packages/helm/jenkinsci/jenkins)
@@ -742,4 +721,3 @@ Upgrade an existing release from `stable/jenkins` to `jenkins/jenkins` seamlessl
 Chart release versions follow [SemVer](../../CONTRIBUTING.md#versioning), where a MAJOR version change (example `1.0.0` -> `2.0.0`) indicates an incompatible breaking change needing manual actions.
 
 See [UPGRADING.md](./UPGRADING.md) for a list of breaking changes
->>>>>>> Stashed changes

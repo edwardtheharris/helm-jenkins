@@ -1,4 +1,5 @@
 venv/
+secrets/
 __snapshot__/
 .gnupg/
 *.xml

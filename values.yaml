@@ -7,13 +7,13 @@
 # See templates/_helpers.tpl
 # -- Override the resource name prefix
 # @default -- `Chart.Name`
-nameOverride:
+nameOverride: ""
 # -- Override the full resource names
 # @default -- `jenkins-(release-name)` or `jenkins` if the release-name is `jenkins`
-fullnameOverride:
+fullnameOverride: ""
 # -- Override the deployment namespace
 # @default -- `Release.Namespace`
-namespaceOverride:
+namespaceOverride: ""
 
 # For FQDN resolving of the controller service. Change this value to match your existing configuration.
 # ref: https://github.com/kubernetes/dns/blob/master/docs/specification.md
@@ -80,7 +80,7 @@ controller:
     username: "admin"
     # -- Admin password created as a secret if `controller.admin.createSecret` is true
     # @default -- <random password>
-    password:
+    password: ""
 
     # -- The key in the existing admin secret containing the username
     userKey: jenkins-admin-user
@@ -578,8 +578,7 @@ controller:
         # -- Tag for the image that triggers the reload
         tag: 1.30.7
       imagePullPolicy: IfNotPresent
-      resources:
-        {}
+      resources: {}
         #   limits:
         #     cpu: 100m
         #     memory: 100Mi
@@ -587,8 +586,7 @@ controller:
         #     cpu: 50m
         #     memory: 50Mi
       # -- Enables additional volume mounts for the config auto-reload container
-      additionalVolumeMounts:
-        []
+      additionalVolumeMounts: []
         #   - name: auto-reload-config
         #     mountPath: /var/config/logger
         #   - name: auto-reload-logs
@@ -725,8 +723,7 @@ controller:
     # -- Ingress labels
     labels: {}
     # -- Ingress annotations
-    annotations:
-      {}
+    annotations: {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
@@ -1318,15 +1315,13 @@ networkPolicy:
     # -- A map of labels (keys/values) that agent pods must have to be able to connect to controller
     podLabels: {}
     # -- A map of labels (keys/values) that agents namespaces must have to be able to connect to controller
-    namespaceLabels:
-      {}
+    namespaceLabels: {}
       # project: myproject
   externalAgents:
     # -- The IP range from which external agents are allowed to connect to controller, i.e., 172.17.0.0/16
     ipCIDR:
     # -- A list of IP sub-ranges to be excluded from the allowlisted IP range
-    except:
-      []
+    except: []
       # - 172.17.1.0/24
 
 ## Install Default RBAC roles and bindings

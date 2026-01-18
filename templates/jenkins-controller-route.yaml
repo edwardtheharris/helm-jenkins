@@ -1,32 +1,17 @@
-{{- if .Values.controller.route.enabled }}
-apiVersion: route.openshift.io/v1
-kind: Route
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 metadata:
-  namespace: {{ template "jenkins.namespace" . }}
-  labels:
-    app: {{ template "jenkins.fullname" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
-    component: "{{ .Release.Name }}-{{ .Values.controller.componentName }}"
-    {{- include "jenkins.labels" . | nindent 4 }}
-{{- if .Values.controller.route.labels }}
-{{ toYaml .Values.controller.route.labels | indent 4 }}
-{{- end }}
-{{- if .Values.controller.route.annotations }}
-  annotations:
-{{ toYaml .Values.controller.route.annotations | indent 4 }}
-{{- end }}
-  name: {{ template "jenkins.fullname" . }}
+  name: "{{ .Release.Name }}"
 spec:
-  host: {{ .Values.controller.route.path }}
-  port:
-    targetPort: http
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
-  to:
-    kind: Service
-    name: {{ template "jenkins.fullname" . }}
-    weight: 100
-  wildcardPolicy: None
-{{- end }}
+  parentRefs:
+    - name: eg
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: jenkins
+          port: 8080
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

@@ -1,4 +1,10 @@
-# Changelog
+---
+abstract: Notes related to changes. 
+date: 2026-0-18
+title: Changelog
+---
+
+<!--markdownlint-disable-->
 
 This file documents all notable changes to the Jenkins Helm Chart.
 The release numbering uses [semantic versioning](http://semver.org).

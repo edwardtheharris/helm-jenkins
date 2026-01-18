@@ -4,8 +4,7 @@ on:
     branches:
       - main
   push:
-    branches:
-      - main
+    branches: []
   workflow_dispatch: {}
 
 ###
@@ -48,12 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
-      - run: |
-          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-          sudo apt-get install apt-transport-https --yes
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-          sudo apt-get update
-          sudo apt-get install -y helm
+      - uses: azure/setup-helm@v4.3.0
+        with:
+          version: latest
+        id: install
 
   ###
   # ```{rubric} Helm Lint
@@ -64,7 +61,7 @@ jobs:
   # ```{literalinclude} /.github/workflows/helm.yml
   # :language: yaml
   # :start-at: "  helmlint:\n"
-  # :end-before: "###\n"
+  # :end-before: "####\n"
   # ```
   helmlint:
     name: helmlint
@@ -73,6 +70,7 @@ jobs:
     steps:
       - uses: actions/checkout@main
       - run: helm lint .
+  ####
 
   ###
   # ```{rubric} Helm Test
@@ -92,6 +90,7 @@ jobs:
       - uses: actions/checkout@main
       - run: helm plugin install https://github.com/helm-unittest/helm-unittest
       - run: helm repo add lvm https://helm.metal-stack.io
+      - run: helm repo add ckotzbauer https://ckotzbauer.github.io/helm-charts
       - run: helm dependency update
       - run: helm dependency build
       - run: helm unittest -d -f 'tests/*.yaml' .

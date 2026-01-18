@@ -93,8 +93,8 @@ jobs:
       - run: helm repo add ckotzbauer https://ckotzbauer.github.io/helm-charts
       - run: helm dependency update
       - run: helm dependency build
-      - run: helm unittest -d -f 'tests/*.yaml' .
-      - run: helm unittest -f 'tests/*.yaml' -t JUnit -o results.xml .
+      - run: helm unittest -u -d -f 'tests/*.yaml' .
+      - run: helm unittest -u -f 'tests/*.yaml' -t JUnit -o results.xml .
         if: success() || failure() # always run even if the previous step fails
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2

@@ -9,6 +9,7 @@ title: Unit tests for Helm Charts.
 
 This is the index for the API documentation for this chart's unit tests.
 
+<!--
 ## pvc test
 
 ```{autoyaml} /tests/pvc_test.yaml
@@ -27,4 +28,8 @@ This is the index for the API documentation for this chart's unit tests.
 ## statefulset test
 
 ```{autoyaml} /tests/statefulset_test.yaml
+```
+-->
+
+```{sectionauthor} Xander Harris <xandertheharris@gmail.com>
 ```

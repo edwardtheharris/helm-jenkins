@@ -1,5 +1,5 @@
 ---
-abstract: Notes related to changes. 
+abstract: Notes related to changes.
 date: 2026-0-18
 title: Changelog
 ---
@@ -2135,7 +2135,7 @@ Also fixes indentation for #23114
 
 ## 2.3.1
 
-Always mount {{ .Values.master.jenkinsRef }}/secrets/ directory. Previous it
+Always mount `{{ .Values.master.jenkinsRef }}/secrets/` directory. Previous it
 was mounted only when `master.enableXmlConfig` was enabled.
 
 ## 2.3.0
@@ -2523,7 +2523,7 @@ JCasC default configuration includes:
 - crumbIssuer
 - disableRememberMe: false
 - mode: NORMAL
-- numExecutors: {{ .Values.master.numExecutors }}
+- numExecutors: `{{ .Values.master.numExecutors }}`
 - projectNamingStrategy: "standard"
 - kubernetes plugin
   - containerCapStr via `agent.containerCap`

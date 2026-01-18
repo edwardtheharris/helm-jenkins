@@ -24,11 +24,13 @@ tests/index
 ```{toctree}
 :caption: meta
 
+changelog
 code_of_conduct
 contributing
 license
 readme
-security
+upgrading
+values.md
 ```
 
 ## Indices and tables
@@ -64,6 +66,8 @@ Kubernetes
 
 Typical Helm chart rules.
 
+<!--
+
 ### Chart
 
 ```{autoyaml} Chart.yaml
@@ -73,6 +77,6 @@ Typical Helm chart rules.
 
 ```{autoyaml} values.yaml
 ```
-
+-->
 ```{sectionauthor} Xander Harris <xandertheharris@gmail.com>
 ```

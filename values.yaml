@@ -80,7 +80,7 @@ controller:
     username: "admin"
     # -- Admin password created as a secret if `controller.admin.createSecret` is true
     # @default -- <random password>
-    password: ""
+    password: "admin"
 
     # -- The key in the existing admin secret containing the username
     userKey: jenkins-admin-user

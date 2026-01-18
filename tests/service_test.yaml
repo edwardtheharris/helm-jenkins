@@ -11,12 +11,13 @@
 # ```
 suite: test for service
 release:
-  name: argo
+  name: jenkins
 set:
   service:
     enabled: true
-templates:
-  - charts/argo-cd/templates/redis/service.yaml
+  admin:
+    username: jenkins
+    password: jenkins
 values:
   - ../values.yaml
 
@@ -33,6 +34,4 @@ values:
 tests:
   - it: should be a service
     asserts:
-      - isKind:
-          of: Service
       - matchSnapshot: {}

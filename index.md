@@ -24,7 +24,6 @@ tests/index
 ```{toctree}
 :caption: meta
 
-.github/index
 code_of_conduct
 contributing
 license

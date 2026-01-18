@@ -1,4 +1,8 @@
-# Jenkins
+---
+abstract: A complete list of available configuration values.
+date: 2026-01-18
+title: Jenkins Helm Chart Values
+---
 
 ## Configuration
 

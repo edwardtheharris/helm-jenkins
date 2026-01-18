@@ -4,6 +4,8 @@ date: 2026-01-18
 title: Jenkins Helm Chart Values
 ---
 
+<!--markdownlint-disable-->
+
 ## Configuration
 
 The following tables list the configurable parameters of the Jenkins chart and their default values.

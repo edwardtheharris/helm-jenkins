@@ -5,7 +5,7 @@ authors:
    - name: Xander Harris
      email: xandertheharris@gmail.com
 date: 2024-08-04
-title: ArgoCD Helm Chart
+title: Jenkins Helm Chart
 ---
 
 ## Repository Contents
@@ -24,7 +24,6 @@ tests/index
 ```{toctree}
 :caption: meta
 
-changelog
 code_of_conduct
 contributing
 license
@@ -78,5 +77,12 @@ Typical Helm chart rules.
 ```{autoyaml} values.yaml
 ```
 -->
+
+## Changelog
+
+```{toctree}
+changelog
+```
+
 ```{sectionauthor} Xander Harris <xandertheharris@gmail.com>
 ```

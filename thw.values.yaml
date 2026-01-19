@@ -42,14 +42,14 @@ controller:
     repository: "jenkins/jenkins"
 
     # -- Controller image tag override; i.e., tag: "2.440.1-jdk21"
-    tag:
+    tag: latest
 
     # -- Controller image tag label
     tagLabel: jdk21
     # -- Controller image pull policy
     pullPolicy: "Always"
   # -- Controller image pull secret
-  imagePullSecretName:
+  imagePullSecretName: ghcr
   # -- Lifecycle specification for controller-container
   lifecycle: {}
   #  postStart:
@@ -173,7 +173,7 @@ controller:
   jenkinsUrlProtocol:
 
   # -- Set Jenkins URL if you are not using the ingress definitions provided by the chart
-  jenkinsUrl:
+  jenkinsUrl: http://jenkins.breeze-blocks.net
 
   # If you set this prefix and use ingress controller, then you might want to set the ingress path below
   # I.e., "/jenkins"

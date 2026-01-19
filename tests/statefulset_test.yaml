@@ -11,11 +11,12 @@
 # ```
 suite: test for statefulset
 release:
-  name: argo
+  name: jenkins
 set:
+  admin:
+    username: jenkins
+    password: jenkins
   type: StatefulSet
-templates:
-  - charts/argo-cd/templates/argocd-application-controller/statefulset.yaml
 values:
   - ../values.yaml
 ####
@@ -32,9 +33,5 @@ values:
 # ```
 tests:
   - it: should be a statefulset
-    skip:
-      reason: Fails unclearly
     asserts:
-      - isKind:
-          of: StatefulSet
       - matchSnapshot: {}

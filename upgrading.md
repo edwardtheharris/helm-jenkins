@@ -1,4 +1,10 @@
-# Upgrade Notes
+---
+abstract: Notes related to recent version upgrades.
+date: 2026-0-18
+title: Upgrade Notes
+---
+
+<!--markdownlint-disable-->
 
 ## To 5.0.0
 

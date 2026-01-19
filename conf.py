@@ -14,8 +14,11 @@ import version_query
 
 def get_release():
     """Query the current release for the project."""
-    repo_path = Path(".")
-    ret_value = version_query.git_query.query_git_repo(repo_path).to_str()
+    try:
+        repo_path = Path(".")
+        ret_value = version_query.git_query.query_git_repo(repo_path).to_str()
+    except ValueError:
+        ret_value = version_query.Version(0, 0, 1).to_str()
     return ret_value
 
 
@@ -38,16 +41,17 @@ exclude_patterns = [
     ".tmp/*",
     ".pytest_cache/*",
     "resources/templates/NOTES.txt",
+    "templates/NOTES.txt",
 ]
 
 extensions = [
     "myst_parser",
-    "sphinx_design",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
     "sphinxcontrib.autoyaml",
+    "sphinx_copybutton",
 ]
 
 # -- Options for HTML output -------------------------------------------------

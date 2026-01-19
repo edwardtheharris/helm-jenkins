@@ -12,7 +12,11 @@
 # ```
 suite: test for pvc
 release:
-  name: argo
+  name: jenkins
+set:
+  admin:
+    password: "jenkins"
+    username: "jenkins"
 values:
   - ../values.yaml
 
@@ -28,9 +32,5 @@ values:
 # ```
 tests:
   - it: should be a PersistentVolumeClaim
-    skip:
-      reason: Not deployed
     asserts:
-      - isKind:
-          of: PersistentVolumeClaim
       - matchSnapshot: {}

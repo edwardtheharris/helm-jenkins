@@ -8,8 +8,15 @@ loguru = "*"
 gitpython = "*"
 pip = "*"
 pre-commit = "*"
-pipenv = "*"
 pytest-helm-charts = "*"
+pipenv = "*"
+sphinx-autobuild = "*"
+version-query = "*"
+myst-parser = {extras = ["linkify"], version = "*"}
+sphinx-design = "*"
+sphinx-copybutton = "*"
+sphinxcontrib-autoyaml = "*"
+sphinx-book-theme = "*"
 
 [dev-packages]
 "sphinxcontrib.autoyaml" = "*"

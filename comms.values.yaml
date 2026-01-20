@@ -365,7 +365,7 @@ controller:
   # this will be an external load balancer and allowing inbound 0.0.0.0/0, a HUGE
   # security risk: https://github.com/kubernetes/charts/issues/1341
   # -- Defines how to expose the agentListener service
-  agentListenerServiceType: "ClusterIP"
+  agentListenerServiceType: "LoadBalancer"
 
   # -- Annotations for the agentListener service
   agentListenerServiceAnnotations: {}

@@ -411,20 +411,10 @@ controller:
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
   installPlugins:
-    - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
-    - command-launcher:123.v37cfdc92ef67
-    - configuration-as-code:2006.v001a_2ca_6b_574
-    - git:5.8.1
-    - git-server:137.ve0060b_432302
-    - github-app-kubernetes-credentials:0.0.1
-    - github-oauth:683.v04a_a_b_e9d7e07
-    - github-pullrequest:0.7.3
     - kubernetes:4398.vb_b_33d9e7fe23
-    - kubernetes-cli:1.364.vadef8cb8b823
-    - kubernetes-credentials-provider:1.301.v2eed6d439a_79
-    - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
-    - timestamper:1.30
     - workflow-aggregator:608.v67378e9d3db_1
+    - git:5.8.1
+    - configuration-as-code:2006.v001a_2ca_6b_574
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
@@ -434,12 +424,22 @@ controller:
   installLatestSpecifiedPlugins: false
 
   # -- List of plugins to install in addition to those listed in controller.installPlugins
-  additionalPlugins: []
+  additionalPlugins:
+    - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
+    - command-launcher:123.v37cfdc92ef67
+    - git-server:137.ve0060b_432302
+    - github-app-kubernetes-credentials:0.0.1
+    - github-oauth:683.v04a_a_b_e9d7e07
+    - github-pullrequest:0.7.3
+    - kubernetes-cli:1.364.vadef8cb8b823
+    - kubernetes-credentials-provider:1.301.v2eed6d439a_79
+    - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
+    - timestamper:1.30
 
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.
   # Note that for this to work, `persistence.enabled` needs to be set to `true`
   # -- Initialize only on first installation. Ensures plugins do not get updated inadvertently. Requires `persistence.enabled` to be set to `true`
-  initializeOnce: false
+  initializeOnce: true
 
   # Enable to always override the installed plugins with the values of 'controller.installPlugins' on upgrade or redeployment.
   # -- Overwrite installed plugins on start
@@ -471,7 +471,7 @@ controller:
   #  test: |-
   #    print 'adding global pipeline libraries, register properties, bootstrap jobs...'
   # -- Name of the existing ConfigMap that contains init scripts
-  initConfigMap:
+  initConfigMap: jenkins
 
   # 'name' is a name of an existing secret in the same namespace as jenkins,
   # 'keyName' is the name of one of the keys inside the current secret.
@@ -481,7 +481,7 @@ controller:
   # and must start and end with an alphanumeric character (e.g. 'my-name', or '123-abc')
   # existingSecret existing secret "secret-credentials" and a key inside it named "github-username" should be used in JCasC as ${github-username}
   # When using existingSecret no need to specify the keyName under additionalExistingSecrets.
-  existingSecret:
+  existingSecret: []
 
   # -- List of additional existing secrets to mount
   additionalExistingSecrets: []
@@ -512,7 +512,7 @@ controller:
   #   renew: 60               # optional
 
   # -- Name of default cloud configuration.
-  cloudName: "kubernetes"
+  cloudName: "the-hard-way"
 
   # Below is the implementation of Jenkins Configuration as Code. Add a key under configScripts for each configuration area,
   # where each corresponds to a plugin or section of the UI. Each key (prior to | character) is just a label, and can be any value.
@@ -532,10 +532,153 @@ controller:
     configUrls: []
     # - https://acme.org/jenkins.yaml
     # -- List of Jenkins Config as Code scripts
-    configScripts: {}
-    #  welcome-message: |
-    #    jenkins:
-    #      systemMessage: Welcome to our CI\CD server. This Jenkins is configured and managed 'as code'.
+    configScripts:
+      welcome-message: |
+        jenkins:
+          systemMessage: >-
+            Welcome to Jenkins the hard way. Don't worry, be happy,
+            and always remember to gfy!
+
+      #   clouds:
+      #     - kubernetes:
+      #         containerCap: 10
+      #         containerCapStr: "10"
+      #         jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      #         jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:80"
+      #         name: "the-hard-way"
+      #         namespace: "jenkins"
+      #         podLabels:
+      #           - key: "jenkins/jenkins-jenkins-agent"
+      #             value: "true"
+      #         serverUrl: "https://kubernetes.default"
+      #         templates:
+      #           - containers:
+      #               - args: "^${computer.jnlpmac} ^${computer.name}"
+      #                 envVars:
+      #                   - envVar:
+      #                       key: "JENKINS_URL"
+      #                       value: "http://jenkins.jenkins.svc.cluster.local:80/"
+      #                 image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
+      #                 name: "jnlp"
+      #                 resourceLimitCpu: "1024m"
+      #                 resourceLimitMemory: "2048Mi"
+      #                 resourceRequestCpu: "512m"
+      #                 resourceRequestMemory: "512Mi"
+      #                  workingDir: "/home/jenkins/agent"
+      #               - args: "cat"
+      #                 command: "/bin/sh -c"
+      #                 image: "python:3-alpine"
+      #                 name: "python"
+      #                 privileged: true
+      #                 resourceLimitCpu: "1"
+      #                 resourceLimitMemory: "1024Mi"
+      #                 resourceRequestCpu: "400m"
+      #                 resourceRequestMemory: "512Mi"
+      #                   ttyEnabled: true
+      #               name: "default"
+      #               namespace: "jenkins"
+      #               nodeUsageMode: NORMAL
+      #               podRetention: "never"
+      #               serviceAccount: "jenkins"
+      #               slaveConnectTimeout: 100
+      #               slaveConnectTimeoutStr: "100"
+      #               yamlMergeStrategy: "override"
+      #               label: "python"
+
+      #             - containers:
+      #                 - alwaysPullImage: true
+      #                   args: "cat"
+      #                   command: "/bin/sh -c"
+      #                   image: "ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-05"
+      #                   livenessProbe:
+      #                     failureThreshold: 0
+      #                     initialDelaySeconds: 0
+      #                     periodSeconds: 0
+      #                     successThreshold: 0
+      #                     timeoutSeconds: 0
+      #                   name: "helm"
+      #                   privileged: true
+      #                   resourceLimitCpu: "1"
+      #                   resourceLimitMemory: "2048Mi"
+      #                   resourceRequestCpu: "400m"
+      #                   resourceRequestMemory: "512Mi"
+      #                   ttyEnabled: true
+      #                   workingDir: "/home/jenkins/agent"
+      #                 - args: "^${computer.jnlpmac} ^${computer.name}"
+      #                   envVars:
+      #                     - envVar:
+      #                         key: "JENKINS_URL"
+      #                         value: "http://jenkins.jenkins.svc.cluster.local:80/"
+      #                   image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
+      #                   name: "jnlp"
+      #                   resourceLimitCpu: "1024m"
+      #                   resourceLimitMemory: "2048Mi"
+      #                   resourceRequestCpu: "512m"
+      #                   resourceRequestMemory: "512Mi"
+      #                   workingDir: "/home/jenkins/agent"
+      #               imagePullSecrets:
+      #                 - name: "ghcr"
+      #               name: "helm"
+      #               namespace: "jenkins"
+      #               nodeSelector: "kubernetes.io/os=linux"
+      #               nodeUsageMode: NORMAL
+      #               serviceAccount: "jenkins"
+      #               yamlMergeStrategy: "override"
+
+      #       - kubernetes:
+      #           containerCap: 10
+      #           containerCapStr: "10"
+      #           jenkinsTunnel: "jenkins.breeze-blocks.net:50000"
+      #           jenkinsUrl: "http://jenkins.breeze-blocks.net:80"
+      #           name: "comms"
+      #           namespace: "default"
+      #           podLabels:
+      #             - key: "jenkins/jenkins-jenkins-agent"
+      #               value: "true"
+      #           serverUrl: "https://192.168.5.33:6443"
+      #           templates:
+      #             - containers:
+      #                 - args: "^${computer.jnlpmac} ^${computer.name}"
+      #                   envVars:
+      #                     - envVar:
+      #                         key: "JENKINS_URL"
+      #                         value: "http://jenkins.breeze-blocks.net/"
+      #                   image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
+      #                   name: "jnlp"
+      #                   resourceLimitCpu: "512m"
+      #                   resourceLimitMemory: "512Mi"
+      #                   resourceRequestCpu: "512m"
+      #                   resourceRequestMemory: "512Mi"
+      #                   workingDir: "/home/jenkins/agent"
+      #                 - alwaysPullImage: true
+      #                   args: "cat"
+      #                   command: "/bin/sh -c"
+      #                   image: "ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1"
+      #                   livenessProbe:
+      #                     failureThreshold: 0
+      #                     initialDelaySeconds: 0
+      #                     periodSeconds: 0
+      #                     successThreshold: 0
+      #                     timeoutSeconds: 0
+      #                   name: "helm"
+      #                   privileged: true
+      #                   resourceLimitCpu: "1024m"
+      #                   resourceLimitMemory: "2048Mi"
+      #                   resourceRequestCpu: "400m"
+      #                   resourceRequestMemory: "512Mi"
+      #                   ttyEnabled: true
+      #                   workingDir: "/home/jenkins/agent"
+      #               imagePullSecrets:
+      #                 - name: "ghcr"
+      #               label: "default"
+      #               name: "default"
+      #               namespace: "jenkins"
+      #               nodeUsageMode: NORMAL
+      #               podRetention: "never"
+      #               serviceAccount: "jenkins"
+      #               slaveConnectTimeout: 100
+      #               slaveConnectTimeoutStr: "100"
+      #               yamlMergeStrategy: "override"
 
     # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
     # -- Jenkins Config as Code security-section
@@ -672,7 +815,8 @@ controller:
 
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   # -- Node labels for pod assignment
-  nodeSelector: {}
+  nodeSelector:
+    kubernetes.io/os: linux
 
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
   # -- Toleration labels for pod assignment
@@ -706,80 +850,6 @@ controller:
 
   # -- DNS config for the pod
   dnsConfig: {}
-
-  ingress:
-    # -- Enables ingress
-    enabled: false
-
-    # Override for the default paths that map requests to the backend
-    # -- Override for the default Ingress paths
-    paths: []
-    # - backend:
-    #     serviceName: ssl-redirect
-    #     servicePort: use-annotation
-    # - backend:
-    #     serviceName: >-
-    #       {{ template "jenkins.fullname" . }}
-    #     # Don't use string here, use only integer value!
-    #     servicePort: 8080
-
-    # -- Ingress rule pathType, choices are: Exact, ImplementationSpecific, Prefix
-    pathType: ImplementationSpecific
-
-    # For Kubernetes v1.14+, use 'networking.k8s.io/v1beta1'
-    # For Kubernetes v1.19+, use 'networking.k8s.io/v1'
-    # -- Ingress API version
-    apiVersion: "extensions/v1beta1"
-    # -- Ingress labels
-    labels: {}
-    # -- Ingress annotations
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
-
-    # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
-    # -- Ingress path
-    path:
-
-    # configures the hostname e.g. jenkins.example.com
-    # -- Ingress hostname
-    hostName:
-    # -- Hostname to serve assets from
-    resourceRootUrl:
-    # -- Ingress TLS configuration
-    tls: []
-    # - secretName: jenkins.cluster.local
-    #   hosts:
-    #     - jenkins.cluster.local
-
-  # often you want to have your controller all locked down and private,
-  # but you still want to get webhooks from your SCM
-  # A secondary ingress will let you expose different urls
-  # with a different configuration
-  secondaryingress:
-    enabled: false
-    # paths you want forwarded to the backend
-    # ex /github-webhook
-    paths: []
-    # For Kubernetes v1.14+, use 'networking.k8s.io/v1beta1'
-    # For Kubernetes v1.19+, use 'networking.k8s.io/v1'
-    apiVersion: "extensions/v1beta1"
-    labels: {}
-    annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
-    # configures the hostname e.g., jenkins-external.example.com
-    hostName:
-    tls:
-    # - secretName: jenkins-external.example.com
-    #   hosts:
-    #     - jenkins-external.example.com
 
   # If you're running on GKE and need to configure a backendconfig
   # to finish ingress setup, use the following values.
@@ -1204,22 +1274,37 @@ agent:
   # controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
   # -- Configures extra pod templates for the default kubernetes cloud
-  podTemplates: {}
-  #  python: |
-  #    - name: python
-  #      label: jenkins-python
-  #      serviceAccount: jenkins
-  #      containers:
-  #        - name: python
-  #          image: python:3
-  #          command: "/bin/sh -c"
-  #          args: "cat"
-  #          ttyEnabled: true
-  #          privileged: true
-  #          resourceRequestCpu: "400m"
-  #          resourceRequestMemory: "512Mi"
-  #          resourceLimitCpu: "1"
-  #          resourceLimitMemory: "1024Mi"
+  podTemplates:
+    helm: |
+      - name: helm
+        label: pod.template=helm
+        serviceAccount: jenkins
+        containers:
+          - name: python
+            image: python:3-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "400m"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "1024Mi"
+    docker: |
+      - name: docker
+        label: pod.template=docker
+        serviceAccount: jenkins
+        containers:
+          - name: python
+            image: python:3-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "400m"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "1024Mi"
 
 # Inherits all values from `agent` so you only need to specify values which differ
 # -- Configure additional
@@ -1273,7 +1358,7 @@ persistence:
   # Requires persistence.enabled: true
   # If defined, PVC must be created manually before volume will be bound
   # -- Provide the name of a PVC
-  existingClaim:
+  #existingClaim: jenkins
 
   # jenkins data Persistent Volume Storage Class
   # If defined, storageClassName: <storageClass>
@@ -1281,7 +1366,7 @@ persistence:
   # If undefined (the default) or set to null, no storageClassName spec is
   #   set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS & OpenStack)
   # -- Storage class for the PVC
-  storageClass:
+  storageClass: csi-lvm-linear
   # -- Annotations for the PVC
   annotations: {}
   # -- Labels for the PVC
@@ -1339,7 +1424,7 @@ rbac:
   # -- Whether RBAC resources are created
   create: true
   # -- Whether the Jenkins service account should be able to read Kubernetes secrets
-  readSecrets: false
+  readSecrets: true
   # -- Whether the Jenkins service account should be able to use the OpenShift "nonroot" Security Context Constraints
   useOpenShiftNonRootSCC: false
 
@@ -1349,29 +1434,29 @@ serviceAccount:
 
   # The name of the ServiceAccount is autogenerated by default
   #  -- The name of the ServiceAccount to be used by access-controlled resources
-  name:
+  name: jenkins
   # -- Configures annotations for the ServiceAccount
   annotations: {}
   # -- Configures extra labels for the ServiceAccount
   extraLabels: {}
   # -- Controller ServiceAccount image pull secret
-  imagePullSecretName:
+  imagePullSecretName: ghcr
   # -- Auto-mount ServiceAccount token
   automountServiceAccountToken: true
 
 serviceAccountAgent:
   # -- Configures if an agent ServiceAccount should be created
-  create: false
+  create: true
 
   # If not set and create is true, a name is generated using the fullname template
   # -- The name of the agent ServiceAccount to be used by access-controlled resources
-  name:
+  name: "jenkins"
   # -- Configures annotations for the agent ServiceAccount
   annotations: {}
   # -- Configures extra labels for the agent ServiceAccount
   extraLabels: {}
   # -- Agent ServiceAccount image pull secret
-  imagePullSecretName:
+  imagePullSecretName: ghcr
   # -- Auto-mount ServiceAccount token
   automountServiceAccountToken: true
 

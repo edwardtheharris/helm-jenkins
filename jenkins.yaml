@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helm
+  annotations:
+    jenkins/label: helm
+  labels:
+    app.kubernetes.io/name: jenkins
+    jenkins/label: helm
+spec:
+  containers:
+    - name: helm
+      command:
+        - "/usr/local/bin/jenkins-agent"
+      args:
+        - "-name"
+        - "${computer.name}"
+        - "-secret"
+        - "${computer.jnlpmac}"
+      image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10
+      tty: true
+      volumeMounts:
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+  imagePullSecrets:
+    - name: ghcr
+  volumes:
+    - name: dockersock
+      hostPath:
+        path: /run/containerd/containerd.sock

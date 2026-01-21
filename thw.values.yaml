@@ -411,20 +411,10 @@ controller:
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
   installPlugins:
-    - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
-    - command-launcher:123.v37cfdc92ef67
-    - configuration-as-code:2006.v001a_2ca_6b_574
-    - git:5.8.1
-    - git-server:137.ve0060b_432302
-    - github-app-kubernetes-credentials:0.0.1
-    - github-oauth:683.v04a_a_b_e9d7e07
-    - github-pullrequest:0.7.3
     - kubernetes:4398.vb_b_33d9e7fe23
-    - kubernetes-cli:1.364.vadef8cb8b823
-    - kubernetes-credentials-provider:1.301.v2eed6d439a_79
-    - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
-    - timestamper:1.30
     - workflow-aggregator:608.v67378e9d3db_1
+    - git:5.8.1
+    - configuration-as-code:2006.v001a_2ca_6b_574
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
@@ -434,7 +424,17 @@ controller:
   installLatestSpecifiedPlugins: false
 
   # -- List of plugins to install in addition to those listed in controller.installPlugins
-  additionalPlugins: []
+  additionalPlugins:
+    - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
+    - command-launcher:123.v37cfdc92ef67
+    - git-server:137.ve0060b_432302
+    - github-app-kubernetes-credentials:0.0.1
+    - github-oauth:683.v04a_a_b_e9d7e07
+    - github-pullrequest:0.7.3
+    - kubernetes-cli:1.364.vadef8cb8b823
+    - kubernetes-credentials-provider:1.301.v2eed6d439a_79
+    - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
+    - timestamper:1.30
 
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.
   # Note that for this to work, `persistence.enabled` needs to be set to `true`

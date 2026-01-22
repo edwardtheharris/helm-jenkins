@@ -28,8 +28,8 @@ pipeline {
     stage("helm unittests") {
       steps {
         timestamps {
-          container("helm") {
-            git(branch: 'main', url: 'https://github.com/helm-unittest/helm-unittest.git')
+          withEphemeralContainer("helm") {
+            git(branch: 'main', changelog: false, credentialsId: 'github', poll: false, url: 'http://github.com/helm-unittest/helm-unittest')
 
             echo("Install unittest plugin")
             sh("helm plugin install ./helm-unittest")

@@ -20,22 +20,24 @@ pipeline {
     stage("lint") {
       steps {
         timestamps {
-          withEphemeralContainer(image: helm) {
-            echo("lint the helm chart on ${env.BRANCH_NAME}")
-            sh("helm lint .")
+          ansiColor('xterm') {
+            podTemplate(agentContainer: '1', agentInjection: true,
+              cloud: 'kubernetes', inheritFrom: 'default',
+              label: 'pod.template=default', name: 'default',
+              namespace: 'jenkins'
+            ) {
+              withEphemeralContainer(image: 'helm') {
+                echo("lint the helm chart on ${env.BRANCH_NAME}")
+                sh("helm lint .")
+            } }
           }
     } } }
     stage("helm unittests") {
       steps {
         timestamps {
           withEphemeralContainer("helm") {
-            git(branch: 'main', changelog: false, credentialsId: 'github', poll: false, url: 'http://github.com/helm-unittest/helm-unittest')
-
-            echo("Install unittest plugin")
-            sh("helm plugin install ./helm-unittest")
-
             echo("Run unittests")
-            sh("helm unittest -u -f 'tests/*.yaml' .")
+            sh("helm unittest --color -u -f 'tests/*.yaml' .")
 
             echo("Save report for ${env.BRANCH_NAME}")
             sh("helm unittest -u -t JUnit -o results-${env.BRANCH_NAME}.xml .")

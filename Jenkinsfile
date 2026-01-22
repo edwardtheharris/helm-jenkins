@@ -26,10 +26,15 @@ pipeline {
               label: 'pod.template=default', name: 'default',
               namespace: 'jenkins'
             ) {
-              withEphemeralContainer(image: 'helm') {
-                echo("lint the helm chart on ${env.BRANCH_NAME}")
-                sh("helm lint .")
-            } }
+              withKubeConfig(caCertificate: '', clusterName: 'the-hard-way',
+                contextName: 'the-hard-way', credentialsId: 'the-hard-way-kubeconfig',
+                namespace: 'jenkins', restrictKubeConfigAccess: false,
+                serverUrl: 'https://192.168.5.97:6443'
+              ) {
+                withEphemeralContainer(image: 'helm') {
+                  echo("lint the helm chart on ${env.BRANCH_NAME}")
+                  sh("helm lint .")
+          } } }
           }
     } } }
     stage("helm unittests") {

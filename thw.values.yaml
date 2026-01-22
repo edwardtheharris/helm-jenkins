@@ -439,7 +439,7 @@ controller:
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.
   # Note that for this to work, `persistence.enabled` needs to be set to `true`
   # -- Initialize only on first installation. Ensures plugins do not get updated inadvertently. Requires `persistence.enabled` to be set to `true`
-  initializeOnce: false
+  initializeOnce: true
 
   # Enable to always override the installed plugins with the values of 'controller.installPlugins' on upgrade or redeployment.
   # -- Overwrite installed plugins on start
@@ -512,7 +512,7 @@ controller:
   #   renew: 60               # optional
 
   # -- Name of default cloud configuration.
-  cloudName: "kubernetes"
+  cloudName: "the-hard-way"
 
   # Below is the implementation of Jenkins Configuration as Code. Add a key under configScripts for each configuration area,
   # where each corresponds to a plugin or section of the UI. Each key (prior to | character) is just a label, and can be any value.
@@ -532,10 +532,12 @@ controller:
     configUrls: []
     # - https://acme.org/jenkins.yaml
     # -- List of Jenkins Config as Code scripts
-    configScripts: {}
-    #  welcome-message: |
-    #    jenkins:
-    #      systemMessage: Welcome to our CI\CD server. This Jenkins is configured and managed 'as code'.
+    configScripts:
+      welcome-message: |
+        jenkins:
+          systemMessage: >-
+            Welcome to Jenkins the hard way. Don't worry, be happy,
+            and always remember to gfy!
 
     # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
     # -- Jenkins Config as Code security-section
@@ -672,7 +674,7 @@ controller:
 
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   # -- Node labels for pod assignment
-  nodeSelector: {}
+  nodeSelector: kubernetes.io/os=linux
 
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
   # -- Toleration labels for pod assignment
@@ -1204,22 +1206,52 @@ agent:
   # controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
   # -- Configures extra pod templates for the default kubernetes cloud
-  podTemplates: {}
-  #  python: |
-  #    - name: python
-  #      label: jenkins-python
-  #      serviceAccount: jenkins
-  #      containers:
-  #        - name: python
-  #          image: python:3
-  #          command: "/bin/sh -c"
-  #          args: "cat"
-  #          ttyEnabled: true
-  #          privileged: true
-  #          resourceRequestCpu: "400m"
-  #          resourceRequestMemory: "512Mi"
-  #          resourceLimitCpu: "1"
-  #          resourceLimitMemory: "1024Mi"
+  podTemplates:
+    python: |
+      - name: python
+        label: pod.template=-python
+        serviceAccount: jenkins
+        containers:
+          - name: python
+            image: python:3-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "400m"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "1024Mi"
+    helm: |
+      - name: helm
+        label: pod.template=helm
+        serviceAccount: jenkins
+        containers:
+          - name: python
+            image: python:3-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "400m"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "1024Mi"
+    docker: |
+      - name: docker
+        label: pod.template=docker
+        serviceAccount: jenkins
+        containers:
+          - name: python
+            image: python:3-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "400m"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "1024Mi"
 
 # Inherits all values from `agent` so you only need to specify values which differ
 # -- Configure additional
@@ -1273,7 +1305,7 @@ persistence:
   # Requires persistence.enabled: true
   # If defined, PVC must be created manually before volume will be bound
   # -- Provide the name of a PVC
-  existingClaim:
+  existingClaim: jenkins
 
   # jenkins data Persistent Volume Storage Class
   # If defined, storageClassName: <storageClass>
@@ -1281,7 +1313,7 @@ persistence:
   # If undefined (the default) or set to null, no storageClassName spec is
   #   set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS & OpenStack)
   # -- Storage class for the PVC
-  storageClass:
+  storageClass: csi-lvm-linear
   # -- Annotations for the PVC
   annotations: {}
   # -- Labels for the PVC
@@ -1339,9 +1371,12 @@ rbac:
   # -- Whether RBAC resources are created
   create: true
   # -- Whether the Jenkins service account should be able to read Kubernetes secrets
-  readSecrets: false
+  readSecrets: true
   # -- Whether the Jenkins service account should be able to use the OpenShift "nonroot" Security Context Constraints
   useOpenShiftNonRootSCC: false
+  roles:
+    - "system:serviceaccount:jenkins:jenkins"
+    - jenkins
 
 serviceAccount:
   # -- Configures if a ServiceAccount with this name should be created
@@ -1349,29 +1384,29 @@ serviceAccount:
 
   # The name of the ServiceAccount is autogenerated by default
   #  -- The name of the ServiceAccount to be used by access-controlled resources
-  name:
+  name: jenkins
   # -- Configures annotations for the ServiceAccount
   annotations: {}
   # -- Configures extra labels for the ServiceAccount
   extraLabels: {}
   # -- Controller ServiceAccount image pull secret
-  imagePullSecretName:
+  imagePullSecretName: ghcr
   # -- Auto-mount ServiceAccount token
   automountServiceAccountToken: true
 
 serviceAccountAgent:
   # -- Configures if an agent ServiceAccount should be created
-  create: false
+  create: true
 
   # If not set and create is true, a name is generated using the fullname template
   # -- The name of the agent ServiceAccount to be used by access-controlled resources
-  name:
+  name: "system:serviceaccount:jenkins:jenkins"
   # -- Configures annotations for the agent ServiceAccount
   annotations: {}
   # -- Configures extra labels for the agent ServiceAccount
   extraLabels: {}
   # -- Agent ServiceAccount image pull secret
-  imagePullSecretName:
+  imagePullSecretName: ghcr
   # -- Auto-mount ServiceAccount token
   automountServiceAccountToken: true
 

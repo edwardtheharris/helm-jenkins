@@ -38,7 +38,7 @@ pipeline {
                 git(branch: 'main', url: 'https://github.com/helm-unittest/helm-unittest.git')
 
                 echo("Install unittest plugin")
-                sh("helm plugin install --verify=false https://github.com/helm-unittest/helm-unittest.git.git")
+                sh("helm plugin install ./helm-unittest")
 
                 echo("Run unittests")
                 sh("helm unittest -u -f 'tests/*.yaml' .")

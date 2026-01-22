@@ -20,9 +20,10 @@ pipeline {
     stage("lint") {
       steps {
         timestamps {
-          echo("lint the helm chart on ${env.BRANCH_NAME}")
-          sh("helm lint .")
-
+          withEphemeralContainer(image: helm) {
+            echo("lint the helm chart on ${env.BRANCH_NAME}")
+            sh("helm lint .")
+          }
     } } }
     stage("helm unittests") {
       steps {

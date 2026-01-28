@@ -1374,9 +1374,6 @@ rbac:
   readSecrets: true
   # -- Whether the Jenkins service account should be able to use the OpenShift "nonroot" Security Context Constraints
   useOpenShiftNonRootSCC: false
-  roles:
-    - "system:serviceaccount:jenkins:jenkins"
-    - jenkins
 
 serviceAccount:
   # -- Configures if a ServiceAccount with this name should be created
@@ -1400,7 +1397,7 @@ serviceAccountAgent:
 
   # If not set and create is true, a name is generated using the fullname template
   # -- The name of the agent ServiceAccount to be used by access-controlled resources
-  name: "system:serviceaccount:jenkins:jenkins"
+  name: "jenkins"
   # -- Configures annotations for the agent ServiceAccount
   annotations: {}
   # -- Configures extra labels for the agent ServiceAccount

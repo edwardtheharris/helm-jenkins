@@ -21,7 +21,7 @@ namespaceOverride: ""
 clusterZone: "cluster.local"
 
 # -- The URL of the Kubernetes API server
-kubernetesURL: "https://cms00.breeze-blocks.net:6443"
+kubernetesURL: "https://192.168.5.97:6443"
 
 # -- The Jenkins credentials to access the Kubernetes API server. For the default cluster it is not needed.
 credentialsId:
@@ -37,12 +37,12 @@ controller:
   componentName: "jenkins-controller"
   image:
     # -- Controller image registry
-    registry: "docker.io"
+    registry: "ghcr.io"
     # -- Controller image repository
-    repository: "jenkins/jenkins"
+    repository: "edwardtheharris/helm-jenkins/jenkins"
 
     # -- Controller image tag override; i.e., tag: "2.440.1-jdk21"
-    tag: latest
+    tag: 0.0.1-00
 
     # -- Controller image tag label
     tagLabel: jdk21

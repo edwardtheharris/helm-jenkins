@@ -12,9 +12,6 @@ spec:
     - name: helm
       image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-05
       tty: true
-      securityContext:
-        # ubuntu runs as root by default, it is recommended or even mandatory in some environments (such as pod security admission "restricted") to run as a non-root user.
-        runAsUser: 1000
       volumeMounts:
         - name: dockersock
           mountPath: /var/run/docker.sock

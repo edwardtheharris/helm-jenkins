@@ -14,8 +14,8 @@ pipeline {
   stages {
     stage('test') {
       steps {
-        node(label='helm') {
-          container(name='helm') {
+        node('helm') {
+          container('helm') {
             timestamps {
               ansiColor('xterm') {
                   echo("Output environment")

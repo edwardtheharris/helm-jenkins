@@ -10,6 +10,21 @@ metadata:
 spec:
   containers:
     - name: helm
+      environment:
+        - name: "JENKINS_TUNNEL"
+          value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+        - name: "JENKINS_AGENT_NAME"
+          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
+        - name: "JENKINS_AGENT_FILE"
+          value: "/jenkins-agent/agent.jar"
+        - name: "REMOTING_OPTS"
+          value: "-noReconnectAfter 1d"
+        - name: "JENKINS_NAME"
+          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
+        - name: "JENKINS_AGENT_WORKDIR"
+          value: "/home/jenkins/agent"
+        - name: "JENKINS_URL"
+          value: "http://jenkins.jenkins.svc.cluster.local:80/"
       image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-05
       tty: true
       volumeMounts:

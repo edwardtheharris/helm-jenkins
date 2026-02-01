@@ -1249,21 +1249,21 @@ agent:
 
   # Containers specified here are added to all agents. Set key empty to remove container from additional agents.
   # -- Add additional containers to the agents
-  additionalContainers: []
-  #  - sideContainerName: dind
-  #    image:
-  #      repository: docker
-  #      tag: dind
-  #    command: dockerd-entrypoint.sh
-  #    args: ""
-  #    privileged: true
-  #    resources:
-  #      requests:
-  #        cpu: 500m
-  #        memory: 1Gi
-  #      limits:
-  #        cpu: 1
-  #        memory: 2Gi
+  additionalContainers:
+    - sideContainerName: dind
+      image:
+        repository: docker
+        tag: dind
+      command: dockerd-entrypoint.sh
+      args: ""
+      privileged: true
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 1
+          memory: 2Gi
 
   # Useful when configuring agents only with the podTemplates value, since the default podTemplate populated by values mentioned above will be excluded in the rendered template.
   # -- Disable the default Jenkins Agent configuration
@@ -1280,11 +1280,11 @@ agent:
   podTemplates:
     helm: |
       - name: helm
-        label: pod.template=helm
+        label: helm
         serviceAccount: jenkins
         containers:
-          - name: python
-            image: python:3-alpine
+          - name: helm
+            image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-05
             command: "/bin/sh -c"
             args: "cat"
             ttyEnabled: true
@@ -1293,6 +1293,8 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "1"
             resourceLimitMemory: "1024Mi"
+        imagePullSecrets:
+          - name: ghcr
     docker: |
       - name: docker
         label: pod.template=docker

@@ -14,7 +14,7 @@ pipeline {
   stages {
     stage('test') {
       steps {
-        node('helm') {
+        node('') {
           container('helm') {
             timestamps {
               ansiColor('xterm') {

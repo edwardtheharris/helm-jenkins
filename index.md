@@ -32,6 +32,15 @@ upgrading
 values.md
 ```
 
+### Pre-commit hooks
+
+The Jenkinsfile is linted with
+[pre-commit-jenkinsfile](https://github.com/tcumby/pre-commit-jenkinsfile).
+
+Some Jenkinsfile-related [nvim](https://github.com/joshzcold/cmp-jenkinsfile)
+[plugins](https://github.com/ckipp01/nvim-jenkinsfile-linter) are also
+in use.
+
 ## Indices and tables
 
 * {ref}`genindex`

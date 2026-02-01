@@ -14,7 +14,7 @@ pipeline {
   stages {
     stage('test') {
       steps {
-        node(label='pod.template=helm') {
+        node(label='helm') {
           container(name='helm') {
             timestamps {
               ansiColor('xterm') {

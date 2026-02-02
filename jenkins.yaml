@@ -23,12 +23,14 @@ spec:
         - name: dockersock
           mountPath: /var/run/docker.sock
     - name: jnlp
+      command: /usr/local/bin/jenkins-agent
+      args:
+        - -name
+        - helm
       image: jenkins/inbound-agent:latest-jdk25
       environment:
         - name: "JENKINS_TUNNEL"
           value: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        - name: "REMOTING_OPTS"
-          value: "-noReconnectAfter 1d"
         - name: "JENKINS_AGENT_WORKDIR"
           value: "/home/jenkins/agent"
         - name: "JENKINS_URL"

@@ -34,9 +34,16 @@ spec:
       image: ghcr.io/edwardtheharris/helm-jenkins/jenkins:0.0.1-00
       command:
         - "/bin/sh"
+      args:
         - "-c"
         - >-
-          mkdir -pv jenkins-agent;cp $(command -v jenkins-agent) jenkins-agent/jenkins-agent;cp -R /usr/share/jenkins/ ./jenkins-agent
+          mkdir -pv jenkins-agent
+        - >-
+          cp $(command -v jenkins-agent) jenkins-agent/jenkins-agent
+        - >-
+          cp -R /usr/share/jenkins/ ./jenkins-agent;
+        - >-
+          ./jenkins-agent/jenkins-agent
       environment:
         - name: "JENKINS_TUNNEL"
           value: "jenkins-agent.jenkins.svc.cluster.local:50000"

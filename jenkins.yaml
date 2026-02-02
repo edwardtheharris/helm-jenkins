@@ -31,12 +31,27 @@ spec:
         - name: dockersock
           mountPath: /var/run/docker.sock
     - name: jnlp
-      image: jenkins/inbound-agent:3355.v388858a_47b_33-3-jdk21
+      image: ghcr.io/edwardtheharris/helm-jenkins/jenkins:0.0.1-00
       command:
         - "/bin/sh"
         - "-c"
         - >-
           mkdir -pv jenkins-agent;cp $(command -v jenkins-agent) jenkins-agent/jenkins-agent;cp -R /usr/share/jenkins/ ./jenkins-agent
+      environment:
+        - name: "JENKINS_TUNNEL"
+          value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+        - name: "JENKINS_AGENT_NAME"
+          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
+        - name: "JENKINS_AGENT_FILE"
+          value: "/jenkins-agent/agent.jar"
+        - name: "REMOTING_OPTS"
+          value: "-noReconnectAfter 1d"
+        - name: "JENKINS_NAME"
+          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
+        - name: "JENKINS_AGENT_WORKDIR"
+          value: "/home/jenkins/agent"
+        - name: "JENKINS_URL"
+          value: "http://jenkins.jenkins.svc.cluster.local:80/"
       tty: true
       volumeMounts:
         - name: dockersock
@@ -44,6 +59,21 @@ spec:
     - name: docker
       image: docker:1.11
       command: ["cat"]
+      environment:
+        - name: "JENKINS_TUNNEL"
+          value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+        - name: "JENKINS_AGENT_NAME"
+          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
+        - name: "JENKINS_AGENT_FILE"
+          value: "/jenkins-agent/agent.jar"
+        - name: "REMOTING_OPTS"
+          value: "-noReconnectAfter 1d"
+        - name: "JENKINS_NAME"
+          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
+        - name: "JENKINS_AGENT_WORKDIR"
+          value: "/home/jenkins/agent"
+        - name: "JENKINS_URL"
+          value: "http://jenkins.jenkins.svc.cluster.local:80/"
       tty: true
       volumeMounts:
         - name: dockersock

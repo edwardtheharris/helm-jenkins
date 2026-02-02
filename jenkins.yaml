@@ -23,7 +23,8 @@ spec:
         - name: dockersock
           mountPath: /var/run/docker.sock
     - name: jnlp
-      command: /usr/local/bin/jenkins-agent
+      command:
+        - /usr/local/bin/jenkins-agent
       args:
         - -name
         - helm

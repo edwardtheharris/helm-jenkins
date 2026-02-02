@@ -62,7 +62,7 @@ controller:
   disableRememberMe: false
 
   # -- Set Number of executors
-  numExecutors: 0
+  numExecutors: 2
 
   # -- Sets the executor mode of the Jenkins node. Possible values are "NORMAL" or "EXCLUSIVE"
   executorMode: "NORMAL"
@@ -70,7 +70,7 @@ controller:
   # -- Append Jenkins labels to the controller
   customJenkinsLabels: []
 
-  hostNetworking: false
+  hostNetworking: true
 
   # When enabling LDAP or another non-Jenkins identity source, the built-in admin account will no longer exist.
   # If you disable the non-Jenkins identity store and instead use the Jenkins internal one,
@@ -163,7 +163,7 @@ controller:
   # -- Append to `JAVA_OPTS` env var
   javaOpts: "-Xms512m -Xmx1024m"
   # -- Append to `JENKINS_OPTS` env var
-  jenkinsOpts:
+  jenkinsOpts: ""
 
   # If you are using the ingress definitions provided by this chart via the `controller.ingress` block,
   # the configured hostname will be the ingress hostname starting with `https://`
@@ -797,11 +797,13 @@ controller:
 
     # -- Configures additional sidecar container(s) for the Jenkins controller
     additionalSidecarContainers: []
-    ## The example below runs the client for https://smee.io as sidecar container next to Jenkins,
-    ## that allows triggering build behind a secure firewall.
-    ## https://jenkins.io/blog/2019/01/07/webhook-firewalls/#triggering-builds-with-webhooks-behind-a-secure-firewall
-    ##
-    ## Note: To use it you should go to https://smee.io/new and update the url to the generated one.
+      ## The example below runs the client for https://smee.io as sidecar container next to Jenkins,
+      ## that allows triggering build behind a secure firewall.
+      ## https://jenkins.io/blog/2019/01/07/webhook-firewalls/#triggering-builds-with-webhooks-behind-a-secure-firewall
+      ##
+      ## Note: To use it you should go to https://smee.io/new and update the url to the generated one.
+      #- name: jnlp
+      #  image: jenkins/inbound-agent:latest
     # - name: smee
     #   image: docker.io/twalter/smee-client:1.0.2
     #   args: ["--port", "{{ .Values.controller.servicePort }}", "--path", "/github-webhook/", "--url", "https://smee.io/new"]
@@ -1011,7 +1013,7 @@ agent:
   # -- Enable Kubernetes plugin jnlp-agent podTemplate
   enabled: true
   # -- The name of the pod template to use for providing default values
-  defaultsProviderTemplate: ""
+  defaultsProviderTemplate: "helm"
 
   # Useful for not including a serviceAccount in the template if `false`
   # -- Use `serviceAccountAgent.name` as the default value for defaults template `serviceAccount`
@@ -1019,17 +1021,17 @@ agent:
 
   # -- Override the default service account
   # @default -- `serviceAccountAgent.name` if `agent.useDefaultServiceAccount` is `true`
-  serviceAccount:
+  serviceAccount: jenkins-agent
 
   # For connecting to the Jenkins controller
   # -- Overrides the Kubernetes Jenkins URL
-  jenkinsUrl:
+  jenkinsUrl: http://jenkins.breeze-blocks.net
 
   # connects to the specified host and port, instead of connecting directly to the Jenkins controller
   # -- Overrides the Kubernetes Jenkins tunnel
-  jenkinsTunnel:
+  jenkinsTunnel: ""
   # -- Disables the verification of the controller certificate on remote connection. This flag correspond to the "Disable https certificate check" flag in kubernetes plugin UI
-  skipTlsVerify: false
+  skipTlsVerify: true
   # -- Enable the possibility to restrict the usage of this agent to specific folder. This flag correspond to the "Restrict pipeline support to authorized folders" flag in kubernetes plugin UI
   usageRestricted: false
   # -- The connection timeout in seconds for connections to Kubernetes API. The minimum value is 5
@@ -1047,33 +1049,33 @@ agent:
   # -- Custom Pod labels (an object with `label-key: label-value` pairs)
   podLabels: {}
   # -- Custom registry used to pull the agent jnlp image from
-  jnlpregistry:
+  jnlpregistry: ""
   image:
     # -- Registry to pull the agent jnlp image from
     registry: ""
     # -- Repository to pull the agent jnlp image from
     repository: "jenkins/inbound-agent"
     # -- Tag of the image to pull
-    tag: "3355.v388858a_47b_33-3"
+    tag: "latest-jdk25"
   # -- Configure working directory for default agent
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   # -- Append Jenkins labels to the agent
   customJenkinsLabels: []
   # -- Name of the secret to be used to pull the image
-  imagePullSecretName:
+  imagePullSecretName: ghcr
   componentName: "jenkins-agent"
   # -- Enables agent communication via websockets
-  websocket: false
-  directConnection: false
+  websocket: true
+  directConnection: true
   # -- Agent privileged container
   privileged: false
   # -- Configure container user
-  runAsUser:
+  runAsUser: 0
   # -- Configure container group
-  runAsGroup:
+  runAsGroup: 0
   # -- Enables the agent to use the host network
-  hostNetworking: false
+  hostNetworking: true
   # -- Resources allocation (Requests and Limits)
   resources:
     requests:
@@ -1094,7 +1096,7 @@ agent:
 
   # You may want to change this to true while testing a new image
   # -- Always pull agent container image before build
-  alwaysPullImage: false
+  alwaysPullImage: true
   # When using Pod Security Admission in the Agents namespace with the restricted Pod Security Standard,
   # the jnlp container cannot be scheduled without overriding its container definition with a securityContext.
   # This option allows to automatically inject in the jnlp container a securityContext

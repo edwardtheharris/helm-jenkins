@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM jenkins/jenkins:latest-jdk25 AS jenkins
+FROM jenkins/jenkins:latest AS jenkins
 LABEL org.opencontainers.image.source=https://github.com/edwardtheharris/helm-jenkins
 LABEL org.opencontainers.image.description="Jenkins image"
 LABEL org.opencontainers.image.licenses=MIT
@@ -23,6 +23,15 @@ USER jenkins
 EXPOSE 8080
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow json-path-api"
 CMD ["/usr/local/bin/jenkins.sh"]
+
+FROM jenkins/inbound-agent:latest AS jnlp
+LABEL org.opencontainers.image.source=https://github.com/edwardtheharris/helm-jenkins
+LABEL org.opencontainers.image.description="JNLP Container"
+LABEL org.opencontainers.image.licenses=MIT
+EXPOSE 50000
+WORKDIR /home/jenkins/agent
+CMD ["/usr/local/bin/jenkins-agent"]
+
 
 FROM alpine/helm AS helm
 RUN mkdir -pv /home/jenkins/agent

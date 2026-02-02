@@ -13,14 +13,6 @@ spec:
       environment:
         - name: "JENKINS_TUNNEL"
           value: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        - name: "JENKINS_AGENT_NAME"
-          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
-        - name: "JENKINS_AGENT_FILE"
-          value: "/jenkins-agent/agent.jar"
-        - name: "REMOTING_OPTS"
-          value: "-noReconnectAfter 1d"
-        - name: "JENKINS_NAME"
-          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
         - name: "JENKINS_AGENT_WORKDIR"
           value: "/home/jenkins/agent"
         - name: "JENKINS_URL"
@@ -31,30 +23,12 @@ spec:
         - name: dockersock
           mountPath: /var/run/docker.sock
     - name: jnlp
-      image: ghcr.io/edwardtheharris/helm-jenkins/jenkins:0.0.1-00
-      command:
-        - "/bin/sh"
-      args:
-        - "-c"
-        - >-
-          mkdir -pv jenkins-agent
-        - >-
-          cp $(command -v jenkins-agent) jenkins-agent/jenkins-agent
-        - >-
-          cp -R /usr/share/jenkins/ ./jenkins-agent;
-        - >-
-          ./jenkins-agent/jenkins-agent
+      image: jenkins/inbound-agent:latest-jdk25
       environment:
         - name: "JENKINS_TUNNEL"
           value: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        - name: "JENKINS_AGENT_NAME"
-          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
-        - name: "JENKINS_AGENT_FILE"
-          value: "/jenkins-agent/agent.jar"
         - name: "REMOTING_OPTS"
           value: "-noReconnectAfter 1d"
-        - name: "JENKINS_NAME"
-          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
         - name: "JENKINS_AGENT_WORKDIR"
           value: "/home/jenkins/agent"
         - name: "JENKINS_URL"

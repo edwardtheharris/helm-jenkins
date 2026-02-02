@@ -28,6 +28,8 @@ spec:
       args:
         - -name
         - helm
+        - -tunnel
+        - jenkins-agent.jenkins.svc.cluster.local:50000
       image: jenkins/inbound-agent:latest-jdk25
       environment:
         - name: "JENKINS_TUNNEL"

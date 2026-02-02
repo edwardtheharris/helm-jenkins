@@ -14,8 +14,8 @@ pipeline {
   stages {
     stage('test') {
       steps {
-        node('agent') {
-          container('helm') {
+        node('helm') {
+          //container('helm') {
             timestamps {
               ansiColor('xterm') {
                   echo("Output environment")
@@ -28,13 +28,13 @@ pipeline {
                   sh("env|sort")
               }
             }
-          }
+          //}
         }
       }
     }
     stage("lint") {
       steps {
-        node('agent') {
+        node('helm') {
           container('helm') {
             timestamps {
               ansiColor('xterm') {

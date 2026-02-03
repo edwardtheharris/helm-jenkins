@@ -22,7 +22,7 @@ spec:
           value: "jenkins-agent.jenkins.svc.cluster.local:50000"
         - name: "JENKINS_URL"
           value: "http://jenkins.jenkins.svc.cluster.local:80/"
-      image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-06
+      image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-07
       tty: true
       volumeMounts:
         - name: dockersock

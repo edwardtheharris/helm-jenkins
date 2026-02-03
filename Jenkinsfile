@@ -12,17 +12,15 @@ pipeline {
       steps {
         node('helm') {
           container('helm') {
-            timestamps {
-              ansiColor('xterm') {
-                  echo("Output environment")
-                  sh("env|sort")
-                  echo("this is the httpie step")
-                  sh("python -m venv .")
-                  sh("bin/pip install -U pip httpie")
-                  sh("bin/http --verbose get https://google.com")
-                  sh("bin/http --verbose get https://jenkins.breeze-blocks.net")
-                  sh("env|sort")
-              }
+            ansiColor('xterm') {
+                echo("Output environment")
+                sh("env|sort")
+                echo("this is the httpie step")
+                sh("python3 -m venv .")
+                sh("bin/pip install -U pip httpie")
+                sh("bin/http --verbose get https://google.com")
+                sh("bin/http --verbose get https://jenkins.breeze-blocks.net")
+                sh("env|sort")
             }
           }
         }
@@ -32,21 +30,19 @@ pipeline {
       steps {
         node('helm') {
           container('helm') {
-            timestamps {
-              ansiColor('xterm') {
-                echo("lint the helm chart")
-                sh("python -m venv .")
-                sh("bin/pip install -U pip httpie")
-                sh("bin/http --verbose get https://jenkins.breeze-blocks.net")
-                sh("env|sort")
-                echo("lint the helm chart on ${env.BRANCH_NAME}")
-                checkout scm
-                sh("""
-                  for i in " " values.yaml comms.values.yaml thw.values.yaml; do
-                    helm lint . -f "$i"
-                  done
-                """)
-              }
+            ansiColor('xterm') {
+              echo("lint the helm chart")
+              sh("python3 -m venv .")
+              sh("bin/pip install -U pip httpie")
+              sh("bin/http --verbose get https://jenkins.breeze-blocks.net")
+              sh("env|sort")
+              echo("lint the helm chart on ${env.BRANCH_NAME}")
+              checkout scm
+              sh("""
+                for i in " " values.yaml comms.values.yaml thw.values.yaml; do
+                  helm lint . -f "$i"
+                done
+              """)
             }
           }
         }
@@ -56,17 +52,15 @@ pipeline {
       steps {
         node('helm') {
           container('helm') {
-            timestamps {
-              ansiColor('xterm') {
-                sh("python -m venv .")
-                sh("bin/pip install -U pip httpie")
-                sh("http --verbose get https://jenkins.breeze-blocks.net")
-                echo("Run unittests")
-                sh("helm unittest --color -u -f 'tests/*.yaml' .")
-                echo("Save report for ${env.BRANCH_NAME}")
-                sh("helm unittest -u -t JUnit -o results-${env.BRANCH_NAME}.xml .")
-                junit("results-${env.BRANCH_NAME}.xml")
-              }
+            ansiColor('xterm') {
+              sh("python3 -m venv .")
+              sh("bin/pip install -U pip httpie")
+              sh("http --verbose get https://jenkins.breeze-blocks.net")
+              echo("Run unittests")
+              sh("helm unittest --color -u -f 'tests/*.yaml' .")
+              echo("Save report for ${env.BRANCH_NAME}")
+              sh("helm unittest -u -t JUnit -o results-${env.BRANCH_NAME}.xml .")
+              junit("results-${env.BRANCH_NAME}.xml")
             }
           }
         }

@@ -33,15 +33,21 @@ WORKDIR /home/jenkins/agent
 CMD ["/usr/local/bin/jenkins-agent"]
 
 
-FROM alpine/helm AS helm
-RUN mkdir -pv /home/jenkins/agent
+FROM jenkins/inbound-agent AS helm
 LABEL org.opencontainers.image.source=https://github.com/edwardtheharris/helm-jenkins
 LABEL org.opencontainers.image.description="Helm runner image"
 LABEL org.opencontainers.image.licenses=MIT
 WORKDIR /home/jenkins/agent
-RUN apk add --no-cache bash bash-completion docker python3 py3-pip \
-  && helm plugin install --verify=false https://github.com/helm-unittest/helm-unittest.git \
+USER root
+RUN apt-get -y update \
+  && apt-get -y install bash-completion python3 python3.13-venv sudo
+RUN sudo apt-get install curl gpg apt-transport-https --yes \
+  && curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null \
+  && echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list \
+  && sudo apt-get update \
+  && sudo apt-get install helm \
+  && helm plugin install https://github.com/helm-unittest/helm-unittest.git \
   && python3 -m venv . \
   && bin/python3 -m pip install --no-cache-dir -U pip httpie \
   && ln -sfv "$(pwd)/bin/http" /usr/bin/http
-ENTRYPOINT ["/bin/sh"]
+ENTRYPOINT ["/bin/bash"]

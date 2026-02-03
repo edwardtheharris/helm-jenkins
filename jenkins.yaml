@@ -11,38 +11,18 @@ spec:
   containers:
     - name: helm
       command:
-        - /bin/bash
+        - "/usr/local/bin/jenkins-agent"
       args:
-        - -c
-        - "while true; do sleep 3600; done"
+        - "-name"
+        - "${computer.name}"
+        - "-secret"
+        - "${computer.jnlpmac}"
       environment:
-        - name: "JENKINS_AGENT_WORKDIR"
-          value: "/home/jenkins/agent"
+        - name: "JENKINS_TUNNEL"
+          value: "jenkins-agent.jenkins.svc.cluster.local:50000"
         - name: "JENKINS_URL"
           value: "http://jenkins.jenkins.svc.cluster.local:80/"
-      image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-05
-      tty: true
-      volumeMounts:
-        - name: dockersock
-          mountPath: /var/run/docker.sock
-    - name: jnlp
-      command:
-        - /usr/local/bin/jenkins-agent
-      args:
-        - -name
-        - ${computer.name}
-        - -secret
-        - ${computer.jnlpmac}
-        - -url
-        - http://jenkins.jenkins.svc.cluster.local:80
-        - -instanceIdentity
-        - MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAubLpUj99CB9rlBPMz1vC2BeySAQj4MHj6hHsnIV5iQ4odufvXwtKViILa6+4yQ19Q/jAC+enNtBswznaOhsq/9PMGwXvHa4ZVciok5WS+K23myHGmrHTBF45PiDvNcQnRiPgUqiiyhCJ/pVQNuYpYfGqN3SscIgSmMevDmGHnWMFMoy2OzPbl3cdomxPo0j1ZRP0wEyM4kFvoPgLMpO2UFe7TVASWKsdFsFFaIVoMYU1dY0hnruIvwfe+XPWjO7ZrIb7QaHzGiVUcB4YBdWAtn61yTwr51c2/OOhPuOqtImS7T5X077GeitsGrbXRRKAWNRz0q0e4CQI+kQXu4re9QIDAQAB
-      image: jenkins/inbound-agent:latest-jdk25
-      environment:
-        - name: "JENKINS_AGENT_WORKDIR"
-          value: "/home/jenkins/agent"
-        - name: "JENKINS_URL"
-          value: "http://jenkins.jenkins.svc.cluster.local:80/"
+      image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-06
       tty: true
       volumeMounts:
         - name: dockersock

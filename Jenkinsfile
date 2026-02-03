@@ -2,19 +2,15 @@
 pipeline {
   agent {
     kubernetes {
-      agentContainer 'jnlp'
-      agentInjection true
       cloud 'the-hard-way'
-      defaultContainer 'helm'
-      inheritFrom 'helm'
-      fromFile "jenkins.yaml"
+      yamlFile  'jenkins.yaml'
       namespace 'jenkins'
     }
   }
   stages {
     stage('test') {
       steps {
-        node('kubernetes') {
+        node('helm') {
           container('helm') {
             timestamps {
               ansiColor('xterm') {

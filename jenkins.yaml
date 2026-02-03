@@ -13,11 +13,11 @@ spec:
     - name: helm
       command:
         - "/usr/local/bin/jenkins-agent"
-      args:
-        - "-name"
-        - "${computer.name}"
-        - "-secret"
-        - "${computer.jnlpmac}"
+      # args:
+      #   - "-name"
+      #   - "${computer.name}"
+      #   - "-secret"
+      #   - "${computer.jnlpmac}"
       image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10
       tty: true
       volumeMounts:

@@ -3,7 +3,7 @@ pipeline {
   agent {
     kubernetes {
       cloud 'the-hard-way'
-      //yamlFile  'jenkins.yaml'
+      yamlFile  'jenkins.yaml'
       namespace 'jenkins'
     }
   }
@@ -11,7 +11,7 @@ pipeline {
     stage('test') {
       steps {
         node("${env.POD_LABEL}") {
-          container('jnlp') {
+          container('helm') {
             ansiColor('xterm') {
               sh("helm create test")
             }
@@ -22,7 +22,7 @@ pipeline {
     stage("lint") {
       steps {
         node("${env.POD_LABEL}") {
-          container("jnlp") {
+          container("helm") {
             ansiColor('xterm') {
               echo("lint the helm chart on ${env.BRANCH_NAME}")
               sh(script: '''
@@ -39,7 +39,7 @@ pipeline {
     stage("helm unittests") {
       steps {
         node("${env.POD_LABEL}") {
-          container('jnlp') {
+          container('helm') {
             ansiColor('xterm') {
               echo("Run helm unittests for ${env.BRANCH_NAME}")
               sh("helm unittest --color -u -f 'tests/*.yaml' .")

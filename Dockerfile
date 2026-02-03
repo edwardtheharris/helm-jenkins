@@ -50,4 +50,5 @@ RUN sudo apt-get install curl gpg apt-transport-https --yes \
   && python3 -m venv . \
   && bin/python3 -m pip install --no-cache-dir -U pip httpie \
   && ln -sfv "$(pwd)/bin/http" /usr/bin/http
+USER jenkins
 ENTRYPOINT ["/bin/bash"]

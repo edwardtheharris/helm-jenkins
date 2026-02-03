@@ -7,7 +7,6 @@ pipeline {
       cloud 'the-hard-way'
       defaultContainer 'helm'
       inheritFrom 'helm'
-      yamlFile  'jenkins.yaml'
       namespace 'jenkins'
     }
   }

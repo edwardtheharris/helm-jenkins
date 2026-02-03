@@ -25,6 +25,7 @@ pipeline {
           container("helm") {
             ansiColor('xterm') {
               echo("lint the helm chart on ${env.BRANCH_NAME}")
+              checkout scm
               sh(script: '''
                 #!/bin/bash
                 for i in thw.values.yaml values.yaml; do

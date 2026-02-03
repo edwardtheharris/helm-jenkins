@@ -429,6 +429,7 @@ controller:
   # -- List of plugins to install in addition to those listed in controller.installPlugins
   additionalPlugins:
     - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
+    - config-file-provider:1006.vc7366c201f57
     - command-launcher:123.v37cfdc92ef67
     - git-server:137.ve0060b_432302
     - github-app-kubernetes-credentials:0.0.1

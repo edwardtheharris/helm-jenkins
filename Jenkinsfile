@@ -27,7 +27,7 @@ pipeline {
               echo("lint the helm chart on ${env.BRANCH_NAME}")
               sh(script: '''
                 #!/bin/bash
-                for i in *values.yaml; do
+                for i in thw.values.yaml values.yaml; do
                   helm lint . -f $i
                 done
               ''', label: "lint the chart")

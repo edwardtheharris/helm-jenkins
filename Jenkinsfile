@@ -43,6 +43,7 @@ pipeline {
           container('helm') {
             ansiColor('xterm') {
               echo("Run helm unittests for ${env.BRANCH_NAME}")
+              checkout scm
               sh("helm unittest --color -u -f 'tests/*.yaml' .")
               echo("Save report for ${env.BRANCH_NAME}")
               sh("helm unittest -u -t JUnit -o results-${env.BRANCH_NAME}.xml .")

@@ -11,8 +11,6 @@ spec:
   containers:
     - name: helm
       environment:
-        - name: "JENKINS_TUNNEL"
-          value: "jenkins-agent.jenkins.svc.cluster.local:50000"
         - name: "JENKINS_AGENT_WORKDIR"
           value: "/home/jenkins/agent"
         - name: "JENKINS_URL"
@@ -36,28 +34,6 @@ spec:
         - MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAubLpUj99CB9rlBPMz1vC2BeySAQj4MHj6hHsnIV5iQ4odufvXwtKViILa6+4yQ19Q/jAC+enNtBswznaOhsq/9PMGwXvHa4ZVciok5WS+K23myHGmrHTBF45PiDvNcQnRiPgUqiiyhCJ/pVQNuYpYfGqN3SscIgSmMevDmGHnWMFMoy2OzPbl3cdomxPo0j1ZRP0wEyM4kFvoPgLMpO2UFe7TVASWKsdFsFFaIVoMYU1dY0hnruIvwfe+XPWjO7ZrIb7QaHzGiVUcB4YBdWAtn61yTwr51c2/OOhPuOqtImS7T5X077GeitsGrbXRRKAWNRz0q0e4CQI+kQXu4re9QIDAQAB
       image: jenkins/inbound-agent:latest-jdk25
       environment:
-        - name: "JENKINS_AGENT_WORKDIR"
-          value: "/home/jenkins/agent"
-        - name: "JENKINS_URL"
-          value: "http://jenkins.jenkins.svc.cluster.local:80/"
-      tty: true
-      volumeMounts:
-        - name: dockersock
-          mountPath: /var/run/docker.sock
-    - name: docker
-      image: docker:1.11
-      command: ["cat"]
-      environment:
-        - name: "JENKINS_TUNNEL"
-          value: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        - name: "JENKINS_AGENT_NAME"
-          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
-        - name: "JENKINS_AGENT_FILE"
-          value: "/jenkins-agent/agent.jar"
-        - name: "REMOTING_OPTS"
-          value: "-noReconnectAfter 1d"
-        - name: "JENKINS_NAME"
-          value: "helm-helm-jenkins-28-update-deployment-from-thw-12-58jl3--9450s"
         - name: "JENKINS_AGENT_WORKDIR"
           value: "/home/jenkins/agent"
         - name: "JENKINS_URL"

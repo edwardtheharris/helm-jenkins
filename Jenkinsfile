@@ -5,8 +5,8 @@ pipeline {
       agentContainer 'jnlp'
       agentInjection true
       cloud 'the-hard-way'
-      //defaultContainer 'helm'
-      //inheritFrom 'helm'
+      defaultContainer 'helm'
+      inheritFrom 'helm'
       yamlFile  'jenkins.yaml'
       namespace 'jenkins'
     }
@@ -14,8 +14,8 @@ pipeline {
   stages {
     stage('test') {
       steps {
-        node('helm') {
-          //container('helm') {
+        node('kubernetes') {
+          container('helm') {
             timestamps {
               ansiColor('xterm') {
                   echo("Output environment")
@@ -28,7 +28,7 @@ pipeline {
                   sh("env|sort")
               }
             }
-          //}
+          }
         }
       }
     }

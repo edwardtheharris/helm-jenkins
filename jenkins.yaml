@@ -27,7 +27,9 @@ spec:
         - /usr/local/bin/jenkins-agent
       args:
         - -name
-        - helm
+        - ${computer.name}
+        - -secret
+        - ${computer.jnlpmac}
         - -tunnel
         - jenkins-agent.jenkins.svc.cluster.local:50000
         - -url

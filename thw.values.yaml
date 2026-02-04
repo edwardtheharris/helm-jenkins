@@ -429,6 +429,7 @@ controller:
   # -- List of plugins to install in addition to those listed in controller.installPlugins
   additionalPlugins:
     - ansicolor:536.v13fa_b_860c267
+    - avatar:28.v2e722a_1e67ea_
     - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
     - checks-api:402.vca_263b_f200e3
     - command-launcher:123.v37cfdc92ef67
@@ -439,6 +440,7 @@ controller:
     - github-checks:634.v371dc6d978a
     - github-oauth:685.v53b_070455063
     - github-pullrequest:0.7.3
+    - gravatar:213.219.v181f17b_22f8b_
     - htmlpublisher:427
     - jdk-tool:83.v417146707a_3d
     - junit:1396.v095840ed8491

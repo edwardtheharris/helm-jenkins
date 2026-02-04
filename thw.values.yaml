@@ -550,6 +550,9 @@ controller:
             Welcome to Jenkins the hard way. Don't worry, be happy,
             and always remember to gfy!
 
+            More information about the configuration as code plugin is available
+            in the relevant docs. https://plugins.jenkins.io/configuration-as-code/
+
     # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
     # -- Jenkins Config as Code security-section
     security:

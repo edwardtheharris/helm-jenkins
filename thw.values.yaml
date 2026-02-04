@@ -62,7 +62,7 @@ controller:
   disableRememberMe: false
 
   # -- Set Number of executors
-  numExecutors: 0
+  numExecutors: 2
 
   # -- Sets the executor mode of the Jenkins node. Possible values are "NORMAL" or "EXCLUSIVE"
   executorMode: "NORMAL"
@@ -70,7 +70,7 @@ controller:
   # -- Append Jenkins labels to the controller
   customJenkinsLabels: []
 
-  hostNetworking: false
+  hostNetworking: true
 
   # When enabling LDAP or another non-Jenkins identity source, the built-in admin account will no longer exist.
   # If you disable the non-Jenkins identity store and instead use the Jenkins internal one,
@@ -163,7 +163,7 @@ controller:
   # -- Append to `JAVA_OPTS` env var
   javaOpts: "-Xms512m -Xmx1024m"
   # -- Append to `JENKINS_OPTS` env var
-  jenkinsOpts:
+  jenkinsOpts: ""
 
   # If you are using the ingress definitions provided by this chart via the `controller.ingress` block,
   # the configured hostname will be the ingress hostname starting with `https://`
@@ -414,10 +414,10 @@ controller:
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
   installPlugins:
+    - configuration-as-code:2037.v8e5349845172
+    - git:5.8.1
     - kubernetes:4398.vb_b_33d9e7fe23
     - workflow-aggregator:608.v67378e9d3db_1
-    - git:5.8.1
-    - configuration-as-code:2006.v001a_2ca_6b_574
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
@@ -428,16 +428,35 @@ controller:
 
   # -- List of plugins to install in addition to those listed in controller.installPlugins
   additionalPlugins:
+    - ansicolor:536.v13fa_b_860c267
+    - avatar:28.v2e722a_1e67ea_
     - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
+    - checks-api:402.vca_263b_f200e3
     - command-launcher:123.v37cfdc92ef67
+    - config-file-provider:1006.vc7366c201f57
+    - docker-build-publish:1.4.0
     - git-server:137.ve0060b_432302
     - github-app-kubernetes-credentials:0.0.1
-    - github-oauth:683.v04a_a_b_e9d7e07
+    - github-checks:634.v371dc6d978a
+    - github-oauth:685.v53b_070455063
     - github-pullrequest:0.7.3
+    - gravatar:213.219.v181f17b_22f8b_
+    - htmlpublisher:427
+    - jdk-tool:83.v417146707a_3d
+    - junit:1396.v095840ed8491
+    - junit-realtime-test-reporter:195.v25b_5f237c6b_4
+    - kubernetes:4423.vb_59f230b_ce53
     - kubernetes-cli:1.364.vadef8cb8b823
+    - kubernetes-client-api:7.3.1-256.v788a_0b_787114
+    - kubernetes-credentials:207.v492f58828b_ed
     - kubernetes-credentials-provider:1.301.v2eed6d439a_79
     - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
+    - kubernetes-pipeline-devops-steps:1.6
+    - pipeline-github-lib:65.v203688e7727e
+    - pipeline-graph-view:763.v0e91db_e845ee
+    - pipeline-utility-steps:2.22.0
     - timestamper:1.30
+    - workflow-aggregator:608.v67378e9d3db_1
 
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.
   # Note that for this to work, `persistence.enabled` needs to be set to `true`
@@ -542,146 +561,8 @@ controller:
             Welcome to Jenkins the hard way. Don't worry, be happy,
             and always remember to gfy!
 
-      #   clouds:
-      #     - kubernetes:
-      #         containerCap: 10
-      #         containerCapStr: "10"
-      #         jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
-      #         jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:80"
-      #         name: "the-hard-way"
-      #         namespace: "jenkins"
-      #         podLabels:
-      #           - key: "jenkins/jenkins-jenkins-agent"
-      #             value: "true"
-      #         serverUrl: "https://kubernetes.default"
-      #         templates:
-      #           - containers:
-      #               - args: "^${computer.jnlpmac} ^${computer.name}"
-      #                 envVars:
-      #                   - envVar:
-      #                       key: "JENKINS_URL"
-      #                       value: "http://jenkins.jenkins.svc.cluster.local:80/"
-      #                 image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
-      #                 name: "jnlp"
-      #                 resourceLimitCpu: "1024m"
-      #                 resourceLimitMemory: "2048Mi"
-      #                 resourceRequestCpu: "512m"
-      #                 resourceRequestMemory: "512Mi"
-      #                  workingDir: "/home/jenkins/agent"
-      #               - args: "cat"
-      #                 command: "/bin/sh -c"
-      #                 image: "python:3-alpine"
-      #                 name: "python"
-      #                 privileged: true
-      #                 resourceLimitCpu: "1"
-      #                 resourceLimitMemory: "1024Mi"
-      #                 resourceRequestCpu: "400m"
-      #                 resourceRequestMemory: "512Mi"
-      #                   ttyEnabled: true
-      #               name: "default"
-      #               namespace: "jenkins"
-      #               nodeUsageMode: NORMAL
-      #               podRetention: "never"
-      #               serviceAccount: "jenkins"
-      #               slaveConnectTimeout: 100
-      #               slaveConnectTimeoutStr: "100"
-      #               yamlMergeStrategy: "override"
-      #               label: "python"
-
-      #             - containers:
-      #                 - alwaysPullImage: true
-      #                   args: "cat"
-      #                   command: "/bin/sh -c"
-      #                   image: "ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-05"
-      #                   livenessProbe:
-      #                     failureThreshold: 0
-      #                     initialDelaySeconds: 0
-      #                     periodSeconds: 0
-      #                     successThreshold: 0
-      #                     timeoutSeconds: 0
-      #                   name: "helm"
-      #                   privileged: true
-      #                   resourceLimitCpu: "1"
-      #                   resourceLimitMemory: "2048Mi"
-      #                   resourceRequestCpu: "400m"
-      #                   resourceRequestMemory: "512Mi"
-      #                   ttyEnabled: true
-      #                   workingDir: "/home/jenkins/agent"
-      #                 - args: "^${computer.jnlpmac} ^${computer.name}"
-      #                   envVars:
-      #                     - envVar:
-      #                         key: "JENKINS_URL"
-      #                         value: "http://jenkins.jenkins.svc.cluster.local:80/"
-      #                   image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
-      #                   name: "jnlp"
-      #                   resourceLimitCpu: "1024m"
-      #                   resourceLimitMemory: "2048Mi"
-      #                   resourceRequestCpu: "512m"
-      #                   resourceRequestMemory: "512Mi"
-      #                   workingDir: "/home/jenkins/agent"
-      #               imagePullSecrets:
-      #                 - name: "ghcr"
-      #               name: "helm"
-      #               namespace: "jenkinnsts"
-      #               nodeSelector: "kubernetes.io/os=linux"
-      #               nodeUsageMode: NORMAL
-      #               serviceAccount: "jenkins"
-      #               yamlMergeStrategy: "override"
-
-      #       - kubernetes:
-      #           containerCap: 10
-      #           containerCapStr: "10"
-      #           jenkinsTunnel: "jenkins.breeze-blocks.net:50000"
-      #           jenkinsUrl: "http://jenkins.breeze-blocks.net:80"
-      #           name: "comms"
-      #           namespace: "default"
-      #           podLabels:
-      #             - key: "jenkins/jenkins-jenkins-agent"
-      #               value: "true"
-      #           serverUrl: "https://192.168.5.33:6443"
-      #           templates:
-      #             - containers:
-      #                 - args: "^${computer.jnlpmac} ^${computer.name}"
-      #                   envVars:
-      #                     - envVar:
-      #                         key: "JENKINS_URL"
-      #                         value: "http://jenkins.breeze-blocks.net/"
-      #                   image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
-      #                   name: "jnlp"
-      #                   resourceLimitCpu: "512m"
-      #                   resourceLimitMemory: "512Mi"
-      #                   resourceRequestCpu: "512m"
-      #                   resourceRequestMemory: "512Mi"
-      #                   workingDir: "/home/jenkins/agent"
-      #                 - alwaysPullImage: true
-      #                   args: "cat"
-      #                   command: "/bin/sh -c"
-      #                   image: "ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1"
-      #                   livenessProbe:
-      #                     failureThreshold: 0
-      #                     initialDelaySeconds: 0
-      #                     periodSeconds: 0
-      #                     successThreshold: 0
-      #                     timeoutSeconds: 0
-      #                   name: "helm"
-      #                   privileged: true
-      #                   resourceLimitCpu: "1024m"
-      #                   resourceLimitMemory: "2048Mi"
-      #                   resourceRequestCpu: "400m"
-      #                   resourceRequestMemory: "512Mi"
-      #                   ttyEnabled: true
-      #                   workingDir: "/home/jenkins/agent"
-      #               imagePullSecrets:
-      #                 - name: "ghcr"
-      #               label: "default"
-      #               name: "default"
-      #               namespace: "jenkins"
-      #               nodeUsageMode: NORMAL
-      #               podRetention: "never"
-      #               serviceAccount: "jenkins"
-      #               slaveConnectTimeout: 100
-      #               slaveConnectTimeoutStr: "100"
-      #               yamlMergeStrategy: "override"
+            More information about the configuration as code plugin is available
+            in the relevant docs. https://plugins.jenkins.io/configuration-as-code/
 
     # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
     # -- Jenkins Config as Code security-section
@@ -698,15 +579,24 @@ controller:
         allowsSignup: false
         enableCaptcha: false
         users:
-        - id: "${chart-admin-username}"
+        - id: "${jenkins-admin-username}"
           name: "Jenkins Admin"
-          password: "${chart-admin-password}"
+          password: "${jenkins-admin-password}"
 
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Authorization Strategy-section
     authorizationStrategy: |-
-      loggedInUsersCanDoAnything:
-        allowAnonymousRead: false
+      github:
+        adminUserNames: "edwardtheharris"
+        agentUserName: "edwardtheharris"
+        allowAnonymousJobStatusPermission: false
+        allowAnonymousReadPermission: false
+        allowCcTrayPermission: false
+        allowGithubWebHookPermission: false
+        authenticatedUserCreateJobPermission: false
+        authenticatedUserReadPermission: false
+        organizationNames: "gahan-corporation"
+        useRepositoryPermissions: true
 
     # -- Annotations for the JCasC ConfigMap
     configMapAnnotations: {}
@@ -725,7 +615,7 @@ controller:
       # Auto-reload uses the http://<jenkins_url>/reload-configuration-as-code endpoint to reapply config when changes to
       # the configScripts are detected.
       # -- Enable Jenkins Config as Code auto-reload
-      enabled: true
+      enabled: false
       image:
         # -- Registry for the image that triggers the reload
         registry: docker.io
@@ -797,11 +687,13 @@ controller:
 
     # -- Configures additional sidecar container(s) for the Jenkins controller
     additionalSidecarContainers: []
-    ## The example below runs the client for https://smee.io as sidecar container next to Jenkins,
-    ## that allows triggering build behind a secure firewall.
-    ## https://jenkins.io/blog/2019/01/07/webhook-firewalls/#triggering-builds-with-webhooks-behind-a-secure-firewall
-    ##
-    ## Note: To use it you should go to https://smee.io/new and update the url to the generated one.
+      ## The example below runs the client for https://smee.io as sidecar container next to Jenkins,
+      ## that allows triggering build behind a secure firewall.
+      ## https://jenkins.io/blog/2019/01/07/webhook-firewalls/#triggering-builds-with-webhooks-behind-a-secure-firewall
+      ##
+      ## Note: To use it you should go to https://smee.io/new and update the url to the generated one.
+      #- name: jnlp
+      #  image: jenkins/inbound-agent:latest
     # - name: smee
     #   image: docker.io/twalter/smee-client:1.0.2
     #   args: ["--port", "{{ .Values.controller.servicePort }}", "--path", "/github-webhook/", "--url", "https://smee.io/new"]
@@ -1019,17 +911,17 @@ agent:
 
   # -- Override the default service account
   # @default -- `serviceAccountAgent.name` if `agent.useDefaultServiceAccount` is `true`
-  serviceAccount:
+  serviceAccount: jenkins
 
   # For connecting to the Jenkins controller
   # -- Overrides the Kubernetes Jenkins URL
-  jenkinsUrl:
+  jenkinsUrl: ""
 
   # connects to the specified host and port, instead of connecting directly to the Jenkins controller
   # -- Overrides the Kubernetes Jenkins tunnel
-  jenkinsTunnel:
+  jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
   # -- Disables the verification of the controller certificate on remote connection. This flag correspond to the "Disable https certificate check" flag in kubernetes plugin UI
-  skipTlsVerify: false
+  skipTlsVerify: true
   # -- Enable the possibility to restrict the usage of this agent to specific folder. This flag correspond to the "Restrict pipeline support to authorized folders" flag in kubernetes plugin UI
   usageRestricted: false
   # -- The connection timeout in seconds for connections to Kubernetes API. The minimum value is 5
@@ -1043,25 +935,25 @@ agent:
   # -- Seconds to wait for pod to be running
   waitForPodSec: 600
   # -- Namespace in which the Kubernetes agents should be launched
-  namespace:
+  namespace: jenkins
   # -- Custom Pod labels (an object with `label-key: label-value` pairs)
   podLabels: {}
   # -- Custom registry used to pull the agent jnlp image from
-  jnlpregistry:
+  jnlpregistry: ""
   image:
     # -- Registry to pull the agent jnlp image from
     registry: ""
     # -- Repository to pull the agent jnlp image from
-    repository: "jenkins/inbound-agent"
+    repository: "ghcr.io/edwardtheharris/helm-jenkins/helm"
     # -- Tag of the image to pull
-    tag: "3355.v388858a_47b_33-3"
+    tag: "0.0.1-10"
   # -- Configure working directory for default agent
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   # -- Append Jenkins labels to the agent
-  customJenkinsLabels: []
+  customJenkinsLabels: ["helm"]
   # -- Name of the secret to be used to pull the image
-  imagePullSecretName:
+  imagePullSecretName: ghcr
   componentName: "jenkins-agent"
   # -- Enables agent communication via websockets
   websocket: false
@@ -1069,11 +961,11 @@ agent:
   # -- Agent privileged container
   privileged: false
   # -- Configure container user
-  runAsUser:
+  runAsUser: 0
   # -- Configure container group
-  runAsGroup:
+  runAsGroup: 0
   # -- Enables the agent to use the host network
-  hostNetworking: false
+  hostNetworking: true
   # -- Resources allocation (Requests and Limits)
   resources:
     requests:
@@ -1094,7 +986,7 @@ agent:
 
   # You may want to change this to true while testing a new image
   # -- Always pull agent container image before build
-  alwaysPullImage: false
+  alwaysPullImage: true
   # When using Pod Security Admission in the Agents namespace with the restricted Pod Security Standard,
   # the jnlp container cannot be scheduled without overriding its container definition with a securityContext.
   # This option allows to automatically inject in the jnlp container a securityContext
@@ -1193,11 +1085,11 @@ agent:
   #   jenkins-agent: v1
 
   # -- Command to execute when side container starts
-  command:
+  command: ""
   # -- Arguments passed to command to execute
-  args: "${computer.jnlpmac} ${computer.name}"
+  args: ""
   # -- Side container name
-  sideContainerName: "jnlp"
+  sideContainerName: ""
 
   # Doesn't allocate pseudo TTY by default
   # -- Allocate pseudo tty to the side container
@@ -1249,21 +1141,7 @@ agent:
 
   # Containers specified here are added to all agents. Set key empty to remove container from additional agents.
   # -- Add additional containers to the agents
-  additionalContainers:
-    - sideContainerName: dind
-      image:
-        repository: docker
-        tag: dind
-      command: dockerd-entrypoint.sh
-      args: ""
-      privileged: true
-      resources:
-        requests:
-          cpu: 500m
-          memory: 1Gi
-        limits:
-          cpu: 1
-          memory: 2Gi
+  additionalContainers: []
 
   # Useful when configuring agents only with the podTemplates value, since the default podTemplate populated by values mentioned above will be excluded in the rendered template.
   # -- Disable the default Jenkins Agent configuration
@@ -1284,9 +1162,9 @@ agent:
         serviceAccount: jenkins
         containers:
           - name: helm
-            image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-05
-            command: "/bin/sh -c"
-            args: "cat"
+            image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10
+            command: "/usr/local/bin/jenkins-agent"
+            args: ""
             ttyEnabled: true
             privileged: true
             resourceRequestCpu: "400m"
@@ -1295,25 +1173,16 @@ agent:
             resourceLimitMemory: "1024Mi"
         imagePullSecrets:
           - name: ghcr
-    docker: |
-      - name: docker
-        label: pod.template=docker
-        serviceAccount: jenkins
-        containers:
-          - name: python
-            image: python:3-alpine
-            command: "/bin/sh -c"
-            args: "cat"
-            ttyEnabled: true
-            privileged: true
-            resourceRequestCpu: "400m"
-            resourceRequestMemory: "512Mi"
-            resourceLimitCpu: "1"
-            resourceLimitMemory: "1024Mi"
 
-# Inherits all values from `agent` so you only need to specify values which differ
+    # Inherits all values from `agent` so you only need to specify values which differ
 # -- Configure additional
-additionalAgents: {}
+additionalAgents:
+  helm:
+    podName: helm
+    customJenkinsLabels: helm
+    image:
+      repository: ghcr.io/edwardtheharris/helm-jenkins/helm
+      tag: 0.0.1-10
 #  maven:
 #    podName: maven
 #    customJenkinsLabels: maven

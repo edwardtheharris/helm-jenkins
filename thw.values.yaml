@@ -434,12 +434,16 @@ controller:
     - config-file-provider:1006.vc7366c201f57
     - git-server:137.ve0060b_432302
     - github-app-kubernetes-credentials:0.0.1
-    - github-oauth:683.v04a_a_b_e9d7e07
+    - github-oauth:685.v53b_070455063
     - github-pullrequest:0.7.3
+    - jdk-tool:83.v417146707a_3d
     - kubernetes-cli:1.364.vadef8cb8b823
     - kubernetes-credentials-provider:1.301.v2eed6d439a_79
     - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
     - pipeline-github-lib:65.v203688e7727e
+    - pipeline-utility-steps:2.22.0
+    - pipeline-graph-view:763.v0e91db_e845ee
+    - workflow-aggregator:608.v67378e9d3db_1
     - timestamper:1.30
 
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.

@@ -358,7 +358,7 @@ spec:
       {{- end }}
       - name: jenkins-config
         configMap:
-          name: {{ template "jenkins.fullname" . }}
+          name: jenkins
       {{- if .Values.controller.installPlugins }}
       - name: plugin-dir
         emptyDir: {}

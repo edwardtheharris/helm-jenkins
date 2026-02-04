@@ -24,6 +24,7 @@ tests/index
 ```{toctree}
 :caption: meta
 
+changelog
 code_of_conduct
 contributing
 license

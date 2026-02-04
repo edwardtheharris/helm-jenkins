@@ -438,14 +438,18 @@ controller:
     - github-oauth:685.v53b_070455063
     - github-pullrequest:0.7.3
     - jdk-tool:83.v417146707a_3d
+    - kubernetes:4423.vb_59f230b_ce53
     - kubernetes-cli:1.364.vadef8cb8b823
+    - kubernetes-client-api:7.3.1-256.v788a_0b_787114
+    - kubernetes-credentials:207.v492f58828b_ed
     - kubernetes-credentials-provider:1.301.v2eed6d439a_79
     - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
+    - kubernetes-pipeline-devops-steps:1.6
     - pipeline-github-lib:65.v203688e7727e
-    - pipeline-utility-steps:2.22.0
     - pipeline-graph-view:763.v0e91db_e845ee
-    - workflow-aggregator:608.v67378e9d3db_1
+    - pipeline-utility-steps:2.22.0
     - timestamper:1.30
+    - workflow-aggregator:608.v67378e9d3db_1
 
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.
   # Note that for this to work, `persistence.enabled` needs to be set to `true`

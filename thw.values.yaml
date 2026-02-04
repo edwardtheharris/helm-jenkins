@@ -436,9 +436,13 @@ controller:
     - docker-build-publish:1.4.0
     - git-server:137.ve0060b_432302
     - github-app-kubernetes-credentials:0.0.1
+    - github-checks:634.v371dc6d978a
     - github-oauth:685.v53b_070455063
     - github-pullrequest:0.7.3
+    - htmlpublisher:427
     - jdk-tool:83.v417146707a_3d
+    - junit:1396.v095840ed8491
+    - junit-realtime-test-reporter:195.v25b_5f237c6b_4
     - kubernetes:4423.vb_59f230b_ce53
     - kubernetes-cli:1.364.vadef8cb8b823
     - kubernetes-client-api:7.3.1-256.v788a_0b_787114

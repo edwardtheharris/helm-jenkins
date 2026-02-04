@@ -1,0 +1,191 @@
+jenkins:
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  clouds:
+  - the-hard-way:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:80"
+      name: "the-hard-way"
+      namespace: "jenkins"
+      podLabels:
+      - key: "jenkins/jenkins-jenkins-agent"
+        value: "true"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          envVars:
+          - envVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins.jenkins.svc.cluster.local:80/"
+          image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "86aa4b9edd6d7df08bfa8cdddb669ea0d10ad2667b5c0e2c89f16b39850c7b71"
+        label: "jenkins-jenkins-agent"
+        name: "default"
+        namespace: "jenkins"
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        serviceAccount: "jenkins"
+        slaveConnectTimeout: 100
+        slaveConnectTimeoutStr: "100"
+        yamlMergeStrategy: "override"
+      - containers:
+        - args: "cat"
+          command: "/bin/sh -c"
+          image: "python:3-alpine"
+          name: "python"
+          privileged: true
+          resourceLimitCpu: "1"
+          resourceLimitMemory: "1024Mi"
+          resourceRequestCpu: "400m"
+          resourceRequestMemory: "512Mi"
+          ttyEnabled: true
+        id: "fe495a68-9ffa-4604-a39a-2d8d6f57dccf"
+        label: "pod.template=docker"
+        name: "docker"
+        serviceAccount: "jenkins"
+      - containers:
+        - args: "cat"
+          command: "/bin/sh -c"
+          image: "python:3-alpine"
+          name: "python"
+          privileged: true
+          resourceLimitCpu: "1"
+          resourceLimitMemory: "1024Mi"
+          resourceRequestCpu: "400m"
+          resourceRequestMemory: "512Mi"
+          ttyEnabled: true
+        id: "51ffd421-a9fa-40dc-a265-b7b5b2b11586"
+        label: "pod.template=-python"
+        name: "python"
+        serviceAccount: "jenkins"
+      - containers:
+        - alwaysPullImage: true
+          args: "cat"
+          command: "/bin/sh -c"
+          image: "ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1"
+          livenessProbe:
+            failureThreshold: 0
+            initialDelaySeconds: 0
+            periodSeconds: 0
+            successThreshold: 0
+            timeoutSeconds: 0
+          name: "helm"
+          privileged: true
+          resourceLimitCpu: "1"
+          resourceLimitMemory: "1024Mi"
+          resourceRequestCpu: "400m"
+          resourceRequestMemory: "512Mi"
+          ttyEnabled: true
+          workingDir: "/home/jenkins/agent"
+        id: "219546c4-21e8-4b51-a738-a0ae664b358a"
+        imagePullSecrets:
+        - name: "ghcr"
+        name: "helm"
+        namespace: "jenkins"
+        nodeSelector: "kubernetes.io/os=linux"
+        nodeUsageMode: NORMAL
+        serviceAccount: "jenkins"
+        yamlMergeStrategy: "override"
+  - comms:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:80"
+      name: "the-hard-way"
+      namespace: "jenkins"
+      podLabels:
+      - key: "jenkins/jenkins-jenkins-agent"
+        value: "true"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          envVars:
+          - envVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins.jenkins.svc.cluster.local:80/"
+          image: "jenkins/inbound-agent:3355.v388858a_47b_33-3"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "86aa4b9edd6d7df08bfa8cdddb669ea0d10ad2667b5c0e2c89f16b39850c7b71"
+        label: "jenkins-jenkins-agent"
+        name: "default"
+        namespace: "jenkins"
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        serviceAccount: "jenkins"
+        slaveConnectTimeout: 100
+        slaveConnectTimeoutStr: "100"
+        yamlMergeStrategy: "override"
+      - containers:
+        - args: "cat"
+          command: "/bin/sh -c"
+          image: "python:3-alpine"
+          name: "python"
+          privileged: true
+          resourceLimitCpu: "1"
+          resourceLimitMemory: "1024Mi"
+          resourceRequestCpu: "400m"
+          resourceRequestMemory: "512Mi"
+          ttyEnabled: true
+        id: "fe495a68-9ffa-4604-a39a-2d8d6f57dccf"
+        label: "pod.template=docker"
+        name: "docker"
+        serviceAccount: "jenkins"
+      - containers:
+        - args: "cat"
+          command: "/bin/sh -c"
+          image: "python:3-alpine"
+          name: "python"
+          privileged: true
+          resourceLimitCpu: "1"
+          resourceLimitMemory: "1024Mi"
+          resourceRequestCpu: "400m"
+          resourceRequestMemory: "512Mi"
+          ttyEnabled: true
+        id: "51ffd421-a9fa-40dc-a265-b7b5b2b11586"
+        label: "pod.template=-python"
+        name: "python"
+        serviceAccount: "jenkins"
+      - containers:
+        - alwaysPullImage: true
+          args: "cat"
+          command: "/bin/sh -c"
+          image: "ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1"
+          livenessProbe:
+            failureThreshold: 0
+            initialDelaySeconds: 0
+            periodSeconds: 0
+            successThreshold: 0
+            timeoutSeconds: 0
+          name: "helm"
+          privileged: true
+          resourceLimitCpu: "1"
+          resourceLimitMemory: "1024Mi"
+          resourceRequestCpu: "400m"
+          resourceRequestMemory: "512Mi"
+          ttyEnabled: true
+          workingDir: "/home/jenkins/agent"
+        id: "219546c4-21e8-4b51-a738-a0ae664b358a"
+        imagePullSecrets:
+        - name: "ghcr"
+        name: "helm"
+        namespace: "jenkins"
+        nodeSelector: "kubernetes.io/os=linux"
+        nodeUsageMode: NORMAL
+        serviceAccount: "jenkins"
+        yamlMergeStrategy: "override

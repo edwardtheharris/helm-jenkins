@@ -439,6 +439,7 @@ controller:
     - kubernetes-cli:1.364.vadef8cb8b823
     - kubernetes-credentials-provider:1.301.v2eed6d439a_79
     - kubernetes-ephemeral-container:58.vf9d271d4a_0b_4
+    - pipeline-github-lib:65.v203688e7727e
     - timestamper:1.30
 
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.

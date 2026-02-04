@@ -430,6 +430,7 @@ controller:
   additionalPlugins:
     - ansicolor:536.v13fa_b_860c267
     - apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
+    - checks-api:402.vca_263b_f200e3
     - command-launcher:123.v37cfdc92ef67
     - config-file-provider:1006.vc7366c201f57
     - docker-build-publish:1.4.0

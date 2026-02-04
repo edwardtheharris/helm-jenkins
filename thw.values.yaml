@@ -586,8 +586,17 @@ controller:
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Authorization Strategy-section
     authorizationStrategy: |-
-      loggedInUsersCanDoAnything:
-        allowAnonymousRead: false
+      github:
+        adminUserNames: "edwardtheharris"
+        agentUserName: "edwardtheharris"
+        allowAnonymousJobStatusPermission: false
+        allowAnonymousReadPermission: false
+        allowCcTrayPermission: false
+        allowGithubWebHookPermission: false
+        authenticatedUserCreateJobPermission: false
+        authenticatedUserReadPermission: false
+        organizationNames: "gahan-corporation"
+        useRepositoryPermissions: true
 
     # -- Annotations for the JCasC ConfigMap
     configMapAnnotations: {}

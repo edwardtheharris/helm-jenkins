@@ -8,27 +8,30 @@
   } */
 stage('test') {
   env.POD_LABEL="helm"
-  podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',
-              containers: [
-              containerTemplate(alwaysPullImage: true, command: '/usr/local/bin/jenkins-agent',
-                      image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.2-01', livenessProbe: containerLivenessProbe(execArgs: '',
-                      failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0,
-                      successThreshold: 0, timeoutSeconds: 0),
-              name: 'helm', resourceLimitCpu: '', resourceLimitEphemeralStorage: '', resourceLimitMemory: '',
-              resourceRequestCpu: '', resourceRequestEphemeralStorage: '',
-              resourceRequestMemory: '', ttyEnabled: true,
-              workingDir: '/home/jenkins/agent')], label: 'helm',
-              name: 'helm', namespace: 'jenkins') {
+  // podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',
+  //             containers: [
+  //             containerTemplate(alwaysPullImage: true, command: '/usr/local/bin/jenkins-agent',
+  //                     image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.2-01', livenessProbe: containerLivenessProbe(execArgs: '',
+  //                     failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0,
+  //                     successThreshold: 0, timeoutSeconds: 0),
+  //             name: 'helm', resourceLimitCpu: '', resourceLimitEphemeralStorage: '', resourceLimitMemory: '',
+  //             resourceRequestCpu: '', resourceRequestEphemeralStorage: '',
+  //             resourceRequestMemory: '', ttyEnabled: true,
+  //             workingDir: '/home/jenkins/agent')], label: 'helm',
+  //             name: 'helm', namespace: 'jenkins') {
     node("${env.POD_LABEL}") {
       gitHubPRStatus(githubPRMessage('${GITHUB_PR_COND_REF} run started'))
       container('helm') {
         ansiColor('xterm') {
-          sh("helm create test")
-          tar archive: true, compress: false, defaultExcludes: false, dir: 'test', exclude: '', file: "jenkins.${env.BUILD_NUMBER}.tar", glob: '', overwrite: false
+          sh("helm create helm-jenkins")
+          tar(archive: true, compress: false, defaultExcludes: false,
+              dir: 'helm-jenkins', exclude: '',
+              file: "${env.JOB_NAME}.${env.BUILD_NUMBER}.tar", glob: '',
+              overwrite: false)
         }
       }
     }
-  }
+  // }
 }
 stage("lint") {
   podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',

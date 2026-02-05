@@ -22,18 +22,20 @@ stage('test') {
     node("${env.POD_LABEL}") {
       gitHubPRStatus(githubPRMessage('${GITHUB_PR_COND_REF} run started'))
       container('helm') {
-        ansiColor('xterm') {
-          sh("helm create helm-jenkins")
-          tar(archive: true, compress: false, defaultExcludes: false,
-              dir: 'helm-jenkins', exclude: '',
-              file: "${env.JOB_NAME}.${env.BUILD_NUMBER}.tar", glob: '',
-              overwrite: false)
-          sh("command -v kubectl")
-          sh("kubectl cluster-info")
-        }
+        withKubeConfig(caCertificate: '', clusterName: 'the-hard-way', contextName: 'kubernetes-admin@the-hard-way', credentialsId: 'kubeconfig-the-hard-way', namespace: 'jenkins', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.5.97:6443') {
+          ansiColor('xterm') {
+            sh("helm create helm-jenkins")
+            tar(archive: true, compress: false, defaultExcludes: false,
+                dir: 'helm-jenkins', exclude: '',
+                file: "${env.JOB_NAME}.${env.BUILD_NUMBER}.tar", glob: '',
+                overwrite: false)
+            sh("command -v kubectl")
+            sh("kubectl cluster-info")
+          }
       }
     }
   // }
+  }
 }
 stage("lint") {
   podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',

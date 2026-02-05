@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 apiVersion: v1
 kind: Pod
 spec:
@@ -14,10 +15,33 @@ spec:
     - name: docker
       image: docker:1.11
       command: ["cat"]
+=======
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helm
+  annotations:
+    jenkins/label: helm
+  labels:
+    app.kubernetes.io/name: jenkins
+    jenkins/label: helm
+spec:
+  containers:
+    - name: helm
+      command:
+        - "/usr/local/bin/jenkins-agent"
+      image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10
+>>>>>>> 3a30235976c475cbaee5eaf4fe26ba73e4d88ce4
       tty: true
       volumeMounts:
         - name: dockersock
           mountPath: /var/run/docker.sock
+<<<<<<< HEAD
+=======
+  imagePullSecrets:
+    - name: ghcr
+>>>>>>> 3a30235976c475cbaee5eaf4fe26ba73e4d88ce4
   volumes:
     - name: dockersock
       hostPath:

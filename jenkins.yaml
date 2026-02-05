@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: helm
+      image: alpine/helm
+      command:
+        - sleep
+      args:
+        - infinity
+      securityContext:
+        # ubuntu runs as root by default, it is recommended or even mandatory in some environments (such as pod security admission "restricted") to run as a non-root user.
+        runAsUser: 1000
+    - name: docker
+      image: docker:1.11
+      command: ["cat"]
+=======
 ---
 apiVersion: v1
 kind: Pod
@@ -14,12 +32,16 @@ spec:
       command:
         - "/usr/local/bin/jenkins-agent"
       image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10
+>>>>>>> 3a30235976c475cbaee5eaf4fe26ba73e4d88ce4
       tty: true
       volumeMounts:
         - name: dockersock
           mountPath: /var/run/docker.sock
+<<<<<<< HEAD
+=======
   imagePullSecrets:
     - name: ghcr
+>>>>>>> 3a30235976c475cbaee5eaf4fe26ba73e4d88ce4
   volumes:
     - name: dockersock
       hostPath:

@@ -93,9 +93,9 @@ controller:
     createSecret: true
 
     # -- The name of an existing secret containing the admin credentials
-    existingSecret: ""
+    existingSecret: jenkins
   # -- Email address for the administrator of the Jenkins instance
-  jenkinsAdminEmail:
+  jenkinsAdminEmail: jenkins@breeze-blocks.net
 
   # This value should not be changed unless you use your custom image of jenkins or any derived from.
   # If you want to use Cloudbees Jenkins Distribution docker, you should set jenkinsHome: "/var/cloudbees-jenkins-distribution"

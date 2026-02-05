@@ -28,6 +28,8 @@ stage('test') {
               dir: 'helm-jenkins', exclude: '',
               file: "${env.JOB_NAME}.${env.BUILD_NUMBER}.tar", glob: '',
               overwrite: false)
+          sh("command -v kubectl")
+          sh("kubectl cluster-info")
         }
       }
     }

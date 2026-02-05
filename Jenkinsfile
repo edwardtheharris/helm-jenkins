@@ -11,7 +11,7 @@ stage('test') {
   podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',
               containers: [
               containerTemplate(alwaysPullImage: true, command: '/usr/local/bin/jenkins-agent',
-                      image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10', livenessProbe: containerLivenessProbe(execArgs: '',
+                      image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.2-01', livenessProbe: containerLivenessProbe(execArgs: '',
                       failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0,
                       successThreshold: 0, timeoutSeconds: 0),
               name: 'helm', resourceLimitCpu: '', resourceLimitEphemeralStorage: '', resourceLimitMemory: '',
@@ -34,7 +34,7 @@ stage("lint") {
   podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',
               containers: [
               containerTemplate(alwaysPullImage: true, command: '/usr/local/bin/jenkins-agent',
-                      image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10', livenessProbe: containerLivenessProbe(execArgs: '',
+                      image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.2-01', livenessProbe: containerLivenessProbe(execArgs: '',
                       failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0,
                       successThreshold: 0, timeoutSeconds: 0),
               name: 'helm', resourceLimitCpu: '', resourceLimitEphemeralStorage: '', resourceLimitMemory: '',
@@ -62,7 +62,7 @@ stage("helm unittests") {
   podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',
               containers: [
               containerTemplate(alwaysPullImage: true, command: '/usr/local/bin/jenkins-agent',
-                      image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10', livenessProbe: containerLivenessProbe(execArgs: '',
+                      image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.2-01', livenessProbe: containerLivenessProbe(execArgs: '',
                       failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0,
                       successThreshold: 0, timeoutSeconds: 0),
               name: 'helm', resourceLimitCpu: '', resourceLimitEphemeralStorage: '', resourceLimitMemory: '',

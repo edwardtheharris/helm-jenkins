@@ -435,6 +435,7 @@ controller:
     - command-launcher:123.v37cfdc92ef67
     - config-file-provider:1006.vc7366c201f57
     - docker-build-publish:1.4.0
+    - generic-webhook-trigger:2.4.1
     - git-server:137.ve0060b_432302
     - github-app-kubernetes-credentials:0.0.1
     - github-checks:634.v371dc6d978a

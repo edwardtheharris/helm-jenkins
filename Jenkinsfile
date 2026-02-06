@@ -106,7 +106,7 @@ stage("helm unittests") {
   }
 }
 stage("docker build and push") {
-  node('docker-marius') {
+  node('docker') {
     container('build') {
 
       sh("echo 'wat'")

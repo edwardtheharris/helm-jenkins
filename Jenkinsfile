@@ -106,7 +106,13 @@ stage("helm unittests") {
   }
 }
 stage("docker build and push") {
-  withDockerContainer('ghcr.io/edwardtheharris/helm-jenkins:docker:0.0.2-00') {
-    sh("docker ps")    // some block
+  dockerNode('docker') {
+    withDockerContainer('ghcr.io/edwardtheharris/helm-jenkins:docker:0.0.2-00') {
+      ansiColor('xterm') {
+
+        sh("docker ps")    // some block
+      }
+    }
+
   }
 }

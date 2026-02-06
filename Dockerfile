@@ -33,22 +33,33 @@ WORKDIR /home/jenkins/agent
 CMD ["/usr/local/bin/jenkins-agent"]
 
 
-FROM jenkins/inbound-agent AS helm
+FROM jenkins/inbound-agent:latest-jdk25 AS helm
 LABEL org.opencontainers.image.source=https://github.com/edwardtheharris/helm-jenkins
-LABEL org.opencontainers.image.description="Helm runner image"
+LABEL org.opencontainers.image.description="Jenkins Agent with Helm"
 LABEL org.opencontainers.image.licenses=MIT
 WORKDIR /home/jenkins/agent
 USER root
-RUN apt-get -y update \
+RUN printf "install python" \
+  && apt-get -y update \
   && apt-get -y install bash-completion python3 python3.13-venv sudo
-RUN sudo apt-get install curl gpg apt-transport-https --yes \
+RUN printf "install kubectl" \
+  && apt-get update \
+  && apt-get -y install apt-transport-https ca-certificates curl gnupg \
+  && curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg \
+  && chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg \
+  && echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list \
+  && chmod 644 /etc/apt/sources.list.d/kubernetes.list \
+  && apt-get update \
+  && apt-get -y install kubectl
+RUN printf "install helm" \
+  && sudo apt-get install curl gpg apt-transport-https --yes \
   && curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null \
   && echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list \
   && sudo apt-get update \
-  && sudo apt-get install helm \
+  && sudo apt-get install helm
+RUN printf "install helm unittest" \
   && helm plugin install https://github.com/helm-unittest/helm-unittest.git \
-  && python3 -m venv . \
-  && bin/python3 -m pip install --no-cache-dir -U pip httpie \
-  && ln -sfv "$(pwd)/bin/http" /usr/bin/http
-USER jenkins
+  && python3 -m venv /usr/local/ \
+  && /usr/local/bin/python3 -m pip install --no-cache-dir -U pip httpie \
+  && chown -Rc jenkins:jenkins /home/jenkins
 ENTRYPOINT ["/bin/bash"]

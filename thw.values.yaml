@@ -434,7 +434,10 @@ controller:
     - checks-api:402.vca_263b_f200e3
     - command-launcher:123.v37cfdc92ef67
     - config-file-provider:1006.vc7366c201f57
+    - docker:1308.vff6e33248305
     - docker-build-publish:1.4.0
+    - docker-java-api:3.7.0-133.v93b_8fb_c17a_77
+    - docker-slaves:1.0.7
     - generic-webhook-trigger:2.4.1
     - git-server:137.ve0060b_432302
     - github-app-kubernetes-credentials:0.0.1
@@ -443,6 +446,7 @@ controller:
     - github-pullrequest:0.7.3
     - gravatar:213.219.v181f17b_22f8b_
     - htmlpublisher:427
+    - image-tag-parameter:3.1
     - jdk-tool:83.v417146707a_3d
     - junit:1396.v095840ed8491
     - junit-realtime-test-reporter:195.v25b_5f237c6b_4

@@ -106,10 +106,7 @@ stage("helm unittests") {
   }
 }
 stage("docker build and push") {
-  node('docker') {
-    container('build') {
-
-      sh("echo 'wat'")
-    }
+  withDockerContainer('ghcr.io/edwardtheharris/helm-jenkins:docker:0.0.2-00') {
+    sh("docker ps")    // some block
   }
 }

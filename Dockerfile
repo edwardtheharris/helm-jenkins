@@ -24,14 +24,25 @@ EXPOSE 8080
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow json-path-api"
 CMD ["/usr/local/bin/jenkins.sh"]
 
-FROM jenkins/inbound-agent:latest AS jnlp
+FROM jenkins/inbound-agent:latest-jdk25 AS docker
 LABEL org.opencontainers.image.source=https://github.com/edwardtheharris/helm-jenkins
-LABEL org.opencontainers.image.description="JNLP Container"
+LABEL org.opencontainers.image.description="Docker Container"
 LABEL org.opencontainers.image.licenses=MIT
 EXPOSE 50000
 WORKDIR /home/jenkins/agent
+USER root
+RUN printf "prep install docker" \
+  && apt-get update \
+  && apt-get install -y ca-certificates curl sudo
+RUN printf "install docker keyrings" \
+  && install -m 0755 -d /etc/apt/keyrings \
+  && curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
+  && chmod a+r /etc/apt/keyrings/docker.asc
+COPY config/docker.sources /etc/apt/sources.list.d/docker.sources
+RUN printf "install docker" \
+  && apt-get update \
+  && apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 CMD ["/usr/local/bin/jenkins-agent"]
-
 
 FROM jenkins/inbound-agent:latest-jdk25 AS helm
 LABEL org.opencontainers.image.source=https://github.com/edwardtheharris/helm-jenkins

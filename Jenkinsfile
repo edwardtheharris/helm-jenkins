@@ -24,7 +24,7 @@ stage('test') {
       container('helm') {
         withKubeConfig( caCertificate: '', clusterName: 'the-hard-way', 
                         contextName: 'kubernetes-admin@the-hard-way', 
-                        credentialsId: 'kubthe-hard-way', namespace: 'jenkins', 
+                        credentialsId: 'kubeconfig-the-hard-way', namespace: 'jenkins', 
                         restrictKubeConfigAccess: false, 
                         serverUrl: 'https://192.168.5.97:6443') {
           ansiColor('xterm') {

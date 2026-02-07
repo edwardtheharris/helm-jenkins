@@ -22,10 +22,10 @@ stage('test') {
     node("${env.POD_LABEL}") {
       gitHubPRStatus(githubPRMessage('${GITHUB_PR_COND_REF} run started'))
       container('helm') {
-        withKubeConfig( caCertificate: '', clusterName: 'the-hard-way', 
-                        contextName: 'kubernetes-admin@the-hard-way', 
-                        credentialsId: 'kubeconfig-the-hard-way', namespace: 'jenkins', 
-                        restrictKubeConfigAccess: false, 
+        withKubeConfig( caCertificate: '', clusterName: 'the-hard-way',
+                        contextName: 'kubernetes-admin@the-hard-way',
+                        credentialsId: 'kubeconfig-the-hard-way', namespace: 'jenkins',
+                        restrictKubeConfigAccess: false,
                         serverUrl: 'https://192.168.5.97:6443') {
           ansiColor('xterm') {
             sh("helm create helm-jenkins")
@@ -110,12 +110,9 @@ stage("helm unittests") {
   }
 }
 stage("build docker image") {
-  dockerNode('docker') {
-    docker.withDockerServer([credentialsId: 'docker-cloud-certs', uri: 'tcp://marius.breeze-blocks.net:2376']) {
-      ansiColor('xterm') {
-        echo("Build docker image for ${env.BRANCH_NAME}")
-        
-      }
+  dockerNode(credentialsId: 'docker-cloud-certs', dockerHost: 'tcp://marius.breeze-blocks.net:2376/', image: 'ghcr.io/edwardtheharris/helm-jenkins/docker:0.0.2-00') {
+    ansiColor('xterm') {
+      echo("Build docker image for ${env.BRANCH_NAME}")
     }
   }
 }

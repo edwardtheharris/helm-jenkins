@@ -99,8 +99,8 @@ stage("helm unittests") {
   }
 }
 stage("build docker image") {
-  withDockerServer([credentialsId: 'docker-cloud-certs', uri: 'tcp://marius.breeze-blocks.net:2376']) {
-    dockerNode('docker') {
+  dockerNode('docker') {
+    withDockerServer([credentialsId: 'docker-cloud-certs', uri: 'tcp://marius.breeze-blocks.net:2376']) {
       ansiColor('xterm') {
         echo("Build docker image for ${env.BRANCH_NAME}")
         

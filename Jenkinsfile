@@ -51,7 +51,7 @@ stage("lint") {
 }
 stage("helm unittests") {
   podTemplate(agentContainer: 'helm', cloud: 'the-hard-way',
-              containers: [
+            containers: [
               containerTemplate(alwaysPullImage: true, command: '/usr/local/bin/jenkins-agent',
                       image: 'ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.2-01', livenessProbe: containerLivenessProbe(execArgs: '',
                       failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0,

@@ -435,6 +435,7 @@ controller:
     - command-launcher:123.v37cfdc92ef67
     - config-file-provider:1006.vc7366c201f57
     - docker-build-publish:1.4.0
+    - generic-webhook-trigger:2.4.1
     - git-server:137.ve0060b_432302
     - github-app-kubernetes-credentials:0.0.1
     - github-checks:634.v371dc6d978a
@@ -946,7 +947,7 @@ agent:
     # -- Repository to pull the agent jnlp image from
     repository: "ghcr.io/edwardtheharris/helm-jenkins/helm"
     # -- Tag of the image to pull
-    tag: "0.0.1-10"
+    tag: "0.0.2-01"
   # -- Configure working directory for default agent
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
@@ -1162,7 +1163,7 @@ agent:
         serviceAccount: jenkins
         containers:
           - name: helm
-            image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.1-10
+            image: ghcr.io/edwardtheharris/helm-jenkins/helm:0.0.2-01
             command: "/usr/local/bin/jenkins-agent"
             args: ""
             ttyEnabled: true
@@ -1182,7 +1183,7 @@ additionalAgents:
     customJenkinsLabels: helm
     image:
       repository: ghcr.io/edwardtheharris/helm-jenkins/helm
-      tag: 0.0.1-10
+      tag: 0.0.2-01
 #  maven:
 #    podName: maven
 #    customJenkinsLabels: maven

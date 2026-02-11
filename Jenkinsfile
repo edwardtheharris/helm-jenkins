@@ -89,7 +89,7 @@ stage("helm unittests") {
   }
 }
 stage("build docker image") {
-  dockerNode(credentialsId: 'docker-cloud-certs', dockerHost: 'tcp://marius.breeze-blocks.net:2376/', image: 'ghcr.io/edwardtheharris/helm-jenkins/docker:0.0.2-00') {
+  dockerNode(credentialsId: 'docker-cloud-certs', dockerHost: 'tcp://marius.breeze-blocks.net:2376/', image: 'ghcr.io/edwardtheharris/helm-jenkins/docker:0.0.2-00')) {
     ansiColor('xterm') {
       echo("Build docker image for ${env.BRANCH_NAME}")
     }

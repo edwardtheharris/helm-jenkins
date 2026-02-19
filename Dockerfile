@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM jenkins/jenkins:latest AS jenkins
+FROM jenkins/jenkins:latest-jdk25 AS jenkins
 LABEL org.opencontainers.image.source=https://github.com/edwardtheharris/helm-jenkins
 LABEL org.opencontainers.image.description="Jenkins image"
 LABEL org.opencontainers.image.licenses=MIT

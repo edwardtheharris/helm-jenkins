@@ -42,10 +42,10 @@ controller:
     repository: "edwardtheharris/helm-jenkins/jenkins"
 
     # -- Controller image tag override; i.e., tag: "2.440.1-jdk21"
-    tag: 0.0.1-00
+    tag: 0.0.1-02
 
     # -- Controller image tag label
-    tagLabel: jdk21
+    tagLabel: jdk25
     # -- Controller image pull policy
     pullPolicy: "Always"
   # -- Controller image pull secret
@@ -446,7 +446,6 @@ controller:
     - jdk-tool:83.v417146707a_3d
     - junit:1396.v095840ed8491
     - junit-realtime-test-reporter:195.v25b_5f237c6b_4
-    - kubernetes:4423.vb_59f230b_ce53
     - kubernetes-cli:1.364.vadef8cb8b823
     - kubernetes-client-api:7.3.1-256.v788a_0b_787114
     - kubernetes-credentials:207.v492f58828b_ed
@@ -457,7 +456,6 @@ controller:
     - pipeline-graph-view:763.v0e91db_e845ee
     - pipeline-utility-steps:2.22.0
     - timestamper:1.30
-    - workflow-aggregator:608.v67378e9d3db_1
 
   # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.
   # Note that for this to work, `persistence.enabled` needs to be set to `true`

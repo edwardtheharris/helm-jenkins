@@ -1,22 +1,22 @@
 ---
-abstract: >- 
-  [Jenkins](https://www.jenkins.io/) is the leading open source 
-  automation server, Jenkins provides over 2000 plugins to 
+abstract: >-
+  [Jenkins](https://www.jenkins.io/) is the leading open source
+  automation server, Jenkins provides over 2000 plugins to
   support building, deploying and automating any project.
 date: 2026-01-18
 title: Jenkins Helm Readme
 ---
 
-<!--markdownlint-disable-->
+<!-- markdownlint-disable -->
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/jenkins)](https://artifacthub.io/packages/helm/jenkinsci/jenkins)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Releases downloads](https://img.shields.io/github/downloads/jenkinsci/helm-charts/total.svg)](https://github.com/jenkinsci/helm-charts/releases)
 [![Join the chat at https://app.gitter.im/#/room/#jenkins-ci:matrix.org](https://badges.gitter.im/badge.svg)](https://app.gitter.im/#/room/#jenkins-ci:matrix.org)
 
-This chart installs a Jenkins server which spawns agents on [Kubernetes](http://kubernetes.io) utilizing the [Jenkins Kubernetes plugin](https://plugins.jenkins.io/kubernetes/).
-
-Inspired by the awesome work of [Carlos Sanchez](https://github.com/carlossg).
+This chart installs a Jenkins server which spawns agents on
+[Kubernetes](http://kubernetes.io) utilizing the
+[Jenkins Kubernetes plugin](https://plugins.jenkins.io/kubernetes/)[^inspired].
 
 ## Get Repository Info
 
@@ -234,7 +234,7 @@ Further JCasC examples can be found in the [configuration-as-code repository](ht
 
 #### Breaking out large Config as Code scripts
 
-Jenkins Config as Code scripts can become quite large, and maintaining all of your scripts within one yaml file can be difficult. The Config as Code plugin itself suggests updating the `CASC_JENKINS_CONFIG` environment variable to be a comma separated list of paths for the plugin to traverse, picking up the yaml files as needed.  
+Jenkins Config as Code scripts can become quite large, and maintaining all of your scripts within one yaml file can be difficult. The Config as Code plugin itself suggests updating the `CASC_JENKINS_CONFIG` environment variable to be a comma separated list of paths for the plugin to traverse, picking up the yaml files as needed.
 However, under the Jenkins helm chart, this `CASC_JENKINS_CONFIG` value is maintained through the templates. A better solution is to split your `controller.JCasC.configScripts` into separate values files, and provide each file during the helm install.
 
 For example, you can have a values file (e.g values_main.yaml) that defines the values described in the `VALUES_SUMMARY.md` for your Jenkins configuration:
@@ -435,7 +435,7 @@ If the storage class is set to null or left undefined (`""`), the default provis
 ### Additional Secrets
 
 Additional secrets and Additional Existing Secrets,
-can be mounted into the Jenkins controller through the chart or created using `controller.additionalSecrets` or `controller.additionalExistingSecrets`.  
+can be mounted into the Jenkins controller through the chart or created using `controller.additionalSecrets` or `controller.additionalExistingSecrets`.
 A common use case might be identity provider credentials if using an external LDAP or OIDC-based identity provider.
 The secret may then be referenced in JCasC configuration (see [JCasC configuration](#configuration-as-code)).
 
@@ -728,3 +728,14 @@ Upgrade an existing release from `stable/jenkins` to `jenkins/jenkins` seamlessl
 Chart release versions follow [SemVer](../../CONTRIBUTING.md#versioning), where a MAJOR version change (example `1.0.0` -> `2.0.0`) indicates an incompatible breaking change needing manual actions.
 
 See [UPGRADING.md](./UPGRADING.md) for a list of breaking changes
+
+## Acknowledgements
+
+Special thanks to the author of
+[this StackOverflow post](https://stackoverflow.com/questions/43913698/jenkinsfile-parallel-directive) for help with
+parallel builds.
+
+```{sectionauthor} Carlos Sanchez
+```
+
+[^inspired]: Inspired by the awesome work of [Carlos Sanchez](https://github.com/carlossg).

@@ -3,8 +3,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "jenkins.fullname" . }}
-  namespace: {{ template "jenkins.namespace" . }}
+  name: "{{ .Release.Name }}"
+  namespace: "{{ .Release.Namespace }}"
   labels:
     {{ include "jenkins.labels" . | nindent 4 }}
 data:

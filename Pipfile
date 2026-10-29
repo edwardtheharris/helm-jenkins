@@ -4,26 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-loguru = "*"
 gitpython = "*"
+loguru = "*"
+myst-parser = {extras = ["linkify"], version = "*"}
 pip = "*"
-pytest-helm-charts = "*"
 pipenv = "*"
-sphinx-autobuild = "*"
-version-query = "*"
-myst-parser = {extras = ["linkify"], version = "*"}
-sphinx-design = "*"
-sphinx-copybutton = "*"
-sphinxcontrib-autoyaml = "*"
-sphinx-book-theme = "*"
 pre-commit = "*"
-
-[dev-packages]
-"sphinxcontrib.autoyaml" = "*"
-myst-parser = {extras = ["linkify"], version = "*"}
+pytest-helm-charts = "*"
 sphinx = "*"
 sphinx-autobuild = "*"
 sphinx-book-theme = "*"
+sphinx-copybutton = "*"
 sphinx-design = "*"
+sphinxcontrib-autoyaml = "*"
 sphinxemoji = "*"
 version-query = "*"

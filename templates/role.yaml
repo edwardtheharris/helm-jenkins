@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: system:serviceaccount:jenkins:jenkins
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["pods", "secrets"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: jenkins
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["pods", "secrets"]
+    verbs: ["get", "watch", "list"]

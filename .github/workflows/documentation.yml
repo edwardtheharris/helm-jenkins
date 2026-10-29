@@ -104,8 +104,10 @@ jobs:
           python-version: 3.15
       - name: Setup pages
         uses: actions/configure-pages@main
+      - name: Install pip
+        run: sudo apt-get -y install python3-pip
       - name: Install pipenv
-        run: sudo apt-get -y install python3-pip python3-pipenv
+        run: pip3.15 install -U pipenv
       - name: Install Python dependencies
         run: |
           pipenv install --dev

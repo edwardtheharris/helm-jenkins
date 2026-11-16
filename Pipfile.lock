@@ -309,11 +309,11 @@
         },
         "docutils": {
             "hashes": [
-                "sha256:4db53b1fde9abecbb74d91230d32ab626d94f6badfc575d6db9194a49df29968",
-                "sha256:d0013f540772d1420576855455d050a2180186c91c15779301ac2ccb3eeb68de"
+                "sha256:25d013af9bf23bc1c7b2b093dff4208166c53a94786c9e447808335ef1185fea",
+                "sha256:746f5060322511280a1e50eb76846ed6bf2342984b2ac04dc42caa1a8d78799e"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==0.22.4"
+            "version": "==0.23"
         },
         "filelock": {
             "hashes": [
@@ -886,12 +886,12 @@
         },
         "sphinx-design": {
             "hashes": [
-                "sha256:d2a3f5b19c24b916adb52f97c5f00efab4009ca337812001109084a740ec9b7a",
-                "sha256:f82bf179951d58f55dca78ab3706aeafa496b741a91b1911d371441127d64282"
+                "sha256:57fa4d96378525122947ab6109c6e490190e3119dc10f3e3adf6b71444bf3bb4",
+                "sha256:861fecb064c3da5ff48031a237692ccb7c2e671f8c4aa84d4b9eef3cb8fd9c91"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.11'",
-            "version": "==0.7.0"
+            "version": "==0.8.0"
         },
         "sphinxcontrib-applehelp": {
             "hashes": [

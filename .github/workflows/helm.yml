@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
-      - run: helm plugin install https://github.com/helm-unittest/helm-unittest
+      - run: helm plugin install --verify=false https://github.com/helm-unittest/helm-unittest
       - run: helm repo add lvm https://helm.metal-stack.io
       - run: helm repo add ckotzbauer https://ckotzbauer.github.io/helm-charts
       - run: helm dependency update
